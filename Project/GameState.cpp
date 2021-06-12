@@ -62,11 +62,11 @@ void GameState::updateInput(const float& dt)
 {
 	sf::Vector2f direction={0.0f,0.0f};
 	//Update player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		direction={-1.0,0.0};
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		direction={1.0,0.0};
 	}
@@ -102,7 +102,7 @@ void GameState::update(const float& dt)
 		else count++;
 		if(count==obstacles.size())
 		{
-			//player->cannotjump();
+			player->cannotjump();
 		}
 	}
 	//std::cout<<"("<<player->getposition().x<<":"<<player->getposition().y<<")"<<":"<<"("<<obstacles[0]->getposition().x<<":"<<obstacles[0]->getposition().y<<")"<<std::endl;
