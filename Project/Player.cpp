@@ -57,27 +57,29 @@ void Player::move(float dt,sf::Vector2f direction)
    {
    velocity.y+=1000.0f*dt;
    }
+   if(canjump)
+   {
+       canjump=false;              
+   }
+  
 }
 void Player::createBoundrect()
 {
-    this->rect=new Boundrect(sprite,sf::Vector2f(-23,-23),42,61);
+    this->rect=new Boundrect(sprite,sf::Vector2f(-23,-23),42,63);
 }
 void Player::oncollision(sf::Vector2f& fromwhere)
 {
     if(fromwhere.x<0)
     {
         velocity.x=0;
-        canjump=false;
     }
     else if(fromwhere.x>0)
     {
         velocity.x=0;
-        canjump=false;
     }
     if(fromwhere.y<0)
     {
         velocity.y=0;
-        canjump=false;
     }
     else if(fromwhere.y>0)
     {

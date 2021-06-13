@@ -10,7 +10,7 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
     float intersecty=abs(deltay)-((tile.height+player.height)/2.0f);
 
     howmuchmovable=std::max(0.0f,std::min(1.0f,howmuchmovable));
-    if(intersectx<0 && intersecty<0)
+    if(intersectx<=0 && intersecty<=0)
     {
         if(abs(intersectx)<=abs(intersecty))
         {
@@ -25,7 +25,7 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
             body2.move(sf::Vector2f((howmuchmovable)*(-intersectx),0));     
             }
         }
-        else if(abs(intersectx)>abs(intersecty))
+        if(abs(intersectx)>=abs(intersecty))
         {
             if(deltay>0.0f)
             {
@@ -43,7 +43,8 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
          
             }
         }
-    
+    if(intersectx<=0 && intersecty<=0)
+    {
     if(deltax<0)
     {
         fromwhere.x=-1.0f;
@@ -62,6 +63,6 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
     }
     return true;
     }
-    
+    }
     return false;
 }

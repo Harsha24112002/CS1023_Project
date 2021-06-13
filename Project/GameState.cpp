@@ -62,7 +62,7 @@ void GameState::updateInput(const float& dt)
 {
 	sf::Vector2f direction={0.0f,0.0f};
 	//Update player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		direction={-1.0,0.0};
 	}
@@ -91,21 +91,20 @@ void GameState::update(const float& dt)
 	unsigned count=0;
 	collider c=player->getcollider();
 	sf::Vector2f directionofcollison={0.0f,0.0f};
+	
 	this->updateMousePositions();
-	this->updateInput(dt);
+	
 	for(auto& a: obstacles)
 	{
 		if((a->getcollider().checkcollision(c,directionofcollison,1.0f)))
 		{
 			player->oncollision(directionofcollison);
 		} 
-		else count++;
-		if(count==obstacles.size())
-		{
-			player->cannotjump();
-		}
+	
+		
 	}
 	//std::cout<<"("<<player->getposition().x<<":"<<player->getposition().y<<")"<<":"<<"("<<obstacles[0]->getposition().x<<":"<<obstacles[0]->getposition().y<<")"<<std::endl;
+	this->updateInput(dt);
 	for(auto& a : obstacles)
 	{
 		a->update(dt);
