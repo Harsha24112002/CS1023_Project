@@ -105,6 +105,17 @@ void Game::update()
 			delete this->states.top();
 			this->states.pop();
 		}
+
+		 // Checking if the game is ending in the QuitState or not.
+		else if (this->states.top()->getTotalQuit())
+		{
+			while (!this->states.empty())
+			{
+				delete this->states.top();
+
+				this->states.pop();
+			}
+		}
 	}
 	//Application end
 	else

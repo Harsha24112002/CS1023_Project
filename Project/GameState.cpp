@@ -11,7 +11,18 @@ GameState::GameState(Statedata& state_info)
 
 GameState::~GameState()
 {
-	
+	delete player;
+
+	for (auto i = obstacles.begin(); i < obstacles.end(); ++i)
+	{
+		delete* i;
+	}
+
+	/*
+	 -To restore the default view of the screen which was disturbed
+	  by the sf::View when player is moving
+	*/
+	this->window->setView(window->getDefaultView());
 }
 
 void GameState::resize(sf::RenderWindow* window,sf::View* view)
@@ -24,6 +35,8 @@ void GameState::resize(sf::RenderWindow* window,sf::View* view)
 void GameState::initobjects()
 {
 	player =new Player(textures["Player_body"]);
+	this->check = false;
+	this->is_game_over = false;
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
 	for(unsigned i=0;i<100;i++)
@@ -97,7 +110,29 @@ void GameState::update(const float& dt)
 		a->update(dt);
 	}
 	this->player->update(dt);
-	//window->setView(view);
+	window->setView(view);
+
+	/*
+	  - Updating if the GameState is over or not.
+	  - If over then endState() functions is called and new QuitState is
+		pushed to the States without ending the current GameState.
+	  - So when we quit the QuitState then we come back to the GameState
+		and again QuitState is called so to avoid that check variable checks
+		if the GameState is already there or not.
+	*/
+	if (player->IsGameOver())
+	{
+		is_game_over = true;
+		this->endState();
+	}
+
+	if (is_game_over && (!check))
+	{
+		check = true;
+		this->window->setView(window->getDefaultView());
+		this->states->push(new QuitState(this->stateinfo));
+	}
+
 }
 
 void GameState::render(sf::RenderTarget* target)
@@ -106,7 +141,7 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		target = this->window;
 	}
-	this->player->render(target);
+	
 	for(auto& a:this->obstacles)
 	{
 		a->render(*target);
@@ -115,4 +150,5 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		a->render(*target);
 	}
+	this->player->render(target);
 }

@@ -136,6 +136,21 @@ void Player::oncollision(sf::Vector2f& fromwhere)
         velocity.y=0;
     }
 }
+
+bool Player::IsGameOver()
+{
+    /*
+        - Checks if the player is fallen or not.
+        - If player has fallen then return true to the IsGameOver.
+    */
+    if (this->sprite.getPosition().y < 1000)
+    {
+        return false;
+    }
+    else
+        return true;
+}
+
 void Player::update(const float& dt)
 {
     

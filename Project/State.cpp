@@ -19,7 +19,7 @@ void State::inittextures()
 	textures["Player_body"].loadFromFile("Resources/Images/kit_from_firefox.png");
 	textures["Tile"].loadFromFile("Resources/Images/Basic_Ground_Top_Pixel.png");
 	textures["Underground"].loadFromFile("Resources/Images/Basic_Ground_Filler_Pixel.png");
-
+	textures["Quit_Background"].loadFromFile("Resources/Images/QuitState_Image.jpeg");
 }
 
 bool State::getQuit() 
@@ -31,6 +31,16 @@ bool State::getQuit()
 void State::endState()
 {
 	this->quit = true;
+}
+
+const bool& State::getTotalQuit() const
+{
+	return this->totalquit;
+}
+
+void State::QuitGame()
+{
+	this->totalquit = true;
 }
 
 void State::updateMousePositions()
