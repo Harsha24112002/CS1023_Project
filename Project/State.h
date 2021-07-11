@@ -28,6 +28,7 @@ protected:
 	std::map<std::string, int>* supportedKeys;
 	std::map<std::string, int> keybinds;
 	bool quit;
+	bool totalquit;
 	Statedata& stateinfo;
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
@@ -43,8 +44,10 @@ public:
 	virtual ~State();
 
 	bool getQuit() ;
+	const bool& getTotalQuit() const;
 
 	void endState();
+	void QuitGame();
 	virtual void updateMousePositions();
 	void inittextures();
 

@@ -56,7 +56,8 @@ class Player
 	void render(sf::RenderTarget* target);
     collider getcollider(){return collider(*rect);}
     void oncollision(sf::Vector2f& fromwhere);
-   
+    bool IsGameOver();
+
     sf::Vector2f getposition() {return sprite.getPosition(); }
    
     //coincollect getcollector(){return coincollect(body);}

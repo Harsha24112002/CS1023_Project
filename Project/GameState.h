@@ -5,6 +5,8 @@
 #include "State.h"
 #include "collider.h"
 #include "Tilemap.h"
+#include "QuitState.h"
+
 class GameState:
 	public State
 {
@@ -13,6 +15,10 @@ private:
 	std::vector<obstacle*> obstacles;
 	std::vector<obstacle*> underground;
 	sf::View view;
+
+	bool is_game_over;
+	bool check;
+
 	//Functions
 	void initKeybinds();
 	void initobjects();
