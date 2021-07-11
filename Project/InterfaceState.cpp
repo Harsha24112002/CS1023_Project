@@ -9,7 +9,7 @@ Interface::Interface(Statedata& state_info):State(state_info)
 	rect.setOutlineThickness(1.0f);
 	rect.setFillColor(sf::Color::Transparent);
 	this->texrect =sf::IntRect(0,0,(int)stateinfo.gridsize,(int)stateinfo.gridsize);
-
+	textureselector = new TextureSelector(20,20,100,100,tilemap->getTilesheet());
 }
 
 void Interface::updatemousepos()
@@ -34,6 +34,7 @@ void Interface::render(sf::RenderTarget* target)
 	{
 		target=this->window;
 	}
+	textureselector->render(target);
 	tilemap->render(target);
 	target->draw(rect);
 	for(auto & a:buttons)

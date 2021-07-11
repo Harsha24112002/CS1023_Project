@@ -17,6 +17,7 @@ public:
 	Tilemap(float gridsize,float width,float height);
 	~Tilemap();
 	void update();
+	sf::Texture* getTilesheet(){return &texture;}
 	void render(sf::RenderTarget* target);
 	void addtile(unsigned x,unsigned y,unsigned z,sf::IntRect& texturerect);
 	void removetile(unsigned x,unsigned y ,unsigned z);

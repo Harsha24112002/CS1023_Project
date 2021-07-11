@@ -4,7 +4,7 @@
 #include "State.h"
 #include <vector>
 #include "Tilemap.h"
-
+#include "TextureSelector.h"
 #ifndef INTERFACESTATE_H
 #define INTERFACESTATE_H
 
@@ -17,6 +17,7 @@ class Interface : public State
 	Tilemap* tilemap;
 	sf::RectangleShape rect;
 	sf::IntRect texrect;
+	TextureSelector* textureselector;
 	public:
 	
 	Interface(Statedata& state_info);
