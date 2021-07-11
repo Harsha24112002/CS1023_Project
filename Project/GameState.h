@@ -4,7 +4,7 @@
 
 #include "State.h"
 #include "collider.h"
-
+#include "Tilemap.h"
 class GameState:
 	public State
 {
@@ -13,17 +13,16 @@ private:
 	std::vector<obstacle*> obstacles;
 	std::vector<obstacle*> underground;
 	sf::View view;
-	
 	//Functions
 	void initKeybinds();
 	void initobjects();
 
 public:
-	GameState(sf::RenderWindow* window,std::stack<State*>* states);
+	GameState(Statedata& state_info);
 	virtual ~GameState();
 
 	//Functions
-	void createobstacles();
+	
 	void updateInput(const float& dt);
 	void update(const float& dt);
 	void render(sf::RenderTarget* target = NULL);

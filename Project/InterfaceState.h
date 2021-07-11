@@ -3,26 +3,25 @@
 #include <stack>
 #include "State.h"
 #include <vector>
+#include "Tilemap.h"
 
 #ifndef INTERFACESTATE_H
 #define INTERFACESTATE_H
 
-bool alreadythere(sf::Vector2f);
 
 class Interface : public State
 {
 	private:
 	void initKeybinds();
-	std::vector<sf::RectangleShape> a;
+	std::map<std::string,Button*> buttons;	
+	Tilemap* tilemap;
 	sf::RectangleShape rect;
-	void initialise();
-	unsigned count=0;
-
+	sf::IntRect texrect;
 	public:
 	
-	Interface(sf::RenderWindow* window,std::stack<State*>* states);
+	Interface(Statedata& state_info);
 
-	void obstaclepositions();
+	void updatemousepos();
 	void update(const float& dt);
 	void updateInput(const float& dt);
 	void render(sf::RenderTarget* target);

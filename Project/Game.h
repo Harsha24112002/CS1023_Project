@@ -11,6 +11,7 @@ private:
 	sf::Event sfevent;
 	std::vector<sf::VideoMode> videoModes;
 	sf::ContextSettings windowSettings;
+	Statedata state_info;
 	bool fullscreen;
 
 	sf::Clock dtClock;
@@ -21,9 +22,9 @@ private:
 	std::map<std::string, int> supportedKeys;
 
 
-	//Initialization
 	void initVariables();
 	void initWindow();
+	void initStateinfo();
 	void initStates();
 	
 
@@ -31,21 +32,16 @@ public:
 	Game();
 	virtual ~Game();
 
-	//Functions
-
-	//Regular
+	
 	void endApplication();
 
 
-	//update
 	void updateDt();
 	void updateSFMLEvents();
 	void update();
 
-	//Render
 	void render();
 
-	//Core
 	void run();
 };
 

@@ -23,7 +23,7 @@ private:
 	void initButtons();
 
 public:
-	MainMenuState(sf::RenderWindow* window,std::stack<State*>* states);
+	MainMenuState(Statedata& state_info);
 	virtual ~MainMenuState();
 
 	//Functions

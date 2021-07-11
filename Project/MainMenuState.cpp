@@ -18,12 +18,12 @@ void MainMenuState::initBackground()
 
 	
 
-	this->background.setTexture(&(State::textures["Main_Menu_Background"]));
+	background.setFillColor(sf::Color(150,150,150,150));	
 }
 
 void MainMenuState::initFonts()
 {
-	if (!this->font.loadFromFile("Fonts/BodoniFLF-Bold.ttf"))
+	if (!this->font.loadFromFile("Fonts/CHLORINR.TTF"))
 	{
 		throw("ERROR::MAINMENUSTATE::COULT NOT LOAD FONT");
 	}
@@ -33,25 +33,25 @@ void MainMenuState::initFonts()
 void MainMenuState::initButtons()
 {
 	this->buttons["GAME_STATE"] = new Button(100, 100, 250, 75,
-		&this->font, "New Game",
-		sf::Color::Green, sf::Color::White, sf::Color(20, 20, 20, 200));
+		&this->font, "PLAY",
+		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
 	
 	this->buttons["SETTINGS"] = new Button(100, 300, 250, 75,
 		&this->font, "Settings",
-		sf::Color::Green, sf::Color::White, sf::Color(20, 20, 20, 200));
+		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
 
 	this->buttons["Interface"] = new Button(100, 500, 250, 75,
 		&this->font, "Interface",
-		sf::Color::Green, sf::Color::White, sf::Color(20, 20, 20, 200));
+		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
 
 	this->buttons["EXIT_STATE"] = new Button(100, 700, 250, 75,
 		&this->font, "Quit",
-		sf::Color::Green, sf::Color::White, sf::Color(20, 20, 20, 200));
+		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
 
 }
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states)
-	:State(window, states)
+MainMenuState::MainMenuState(Statedata& state_info)
+	:State(state_info)
 {
 	this->initVariables();
 	this->initBackground();
@@ -87,7 +87,7 @@ void MainMenuState::updateButtons()
 	//New game
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(new GameState(this->window, this->states));
+		this->states->push(new GameState(stateinfo));
 	}
 
 	//Quit the game
@@ -98,7 +98,7 @@ void MainMenuState::updateButtons()
 	
 	if(this->buttons["Interface"]->isPressed())
 	{
-		this->states->push(new Interface(this->window,this->states));
+		this->states->push(new Interface(stateinfo));
 	}
 }
 

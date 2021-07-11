@@ -34,10 +34,14 @@ class Player
     float switchtime;
     animation* a;
     sf::Texture t;
+    sf::Vector2f acceleration;
+    float maxspeed;
+    float deceleration;
+
+    void initvariables();
 
    protected:
   
-    float movementspeed;
     sf::Sprite sprite;
     Boundrect* rect;
 
@@ -52,9 +56,7 @@ class Player
 	void render(sf::RenderTarget* target);
     collider getcollider(){return collider(*rect);}
     void oncollision(sf::Vector2f& fromwhere);
-    void cannotjump(){
-        canjump=false;
-    }
+   
     sf::Vector2f getposition() {return sprite.getPosition(); }
    
     //coincollect getcollector(){return coincollect(body);}

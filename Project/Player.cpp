@@ -5,38 +5,94 @@ Player::Player(sf::Texture tex)
    
     this->t=tex;
     this->sprite.setTexture(t);
-    //this->sprite.setScale(sf::Vector2f(1.0f));
+    this->initvariables();
+}
+void Player::initvariables()
+{
     this->sprite.setPosition(sf::Vector2f(200,600));
     this->nimages.x=3;
     this->nimages.y=9;
-    this->switchtime=0.4f;
+    this->switchtime=0.25f;
     this->a= new animation(&t,this->nimages,this->switchtime);
     this->jumpheight=100.0f;
-    this->movementspeed=250.0f;
+    
     this->row=0;
     this->canjump=false;
     this->rightface=true;
     this->velocity.x=0;
     this->velocity.y=0;
-     this->createBoundrect();
+    this->acceleration.x=300;
+    this->maxspeed=250.0f;
+    this->createBoundrect();
+    this->deceleration=-500;
 }
 void Player::move(float dt,sf::Vector2f direction)
 {  
-    this->velocity.x=direction.x*movementspeed;
+    
+    if(direction.x>0.5f)
+    {
+       if(velocity.x>=0)
+       {
+        if(velocity.x<maxspeed)
+        velocity.x+=acceleration.x*dt;
+        else velocity.x=maxspeed*direction.x;
+       }
+       if(velocity.x<0)
+       {
+           velocity.x-=deceleration*dt;
+       }
+    }
+    if(direction.x<-0.5f)
+    {
+        if(velocity.x<=0)
+        {
+        if(velocity.x>-maxspeed)
+        {
+            velocity.x-=acceleration.x*dt;
+        }
+        else velocity.x=maxspeed*direction.x;
+        }
+        if(velocity.x>0)
+        {
+            velocity.x+=deceleration*dt;
+        }
+
+    }
     
     if(direction.x==0.0f)
     {
-        row=0;
+        if(velocity.x>0.0f)
+        {
+            velocity.x+=deceleration*dt;
+            if(velocity.x<0.0f)
+            {
+                velocity.x=0.0f;
+                
+            }
+        }
+        else if(velocity.x<0.0f)
+        {
+            velocity.x-=deceleration*dt;
+            if(velocity.x>0.0f)
+            {
+                velocity.x=0.0f;
+            }
+        }
+
+        if(velocity.x==0)
+        {
+            row=0;
+        }
      
     }
-    if(direction.x>0.0f)
+    if(velocity.x>0.0f)
     {
         row=1;
         sprite.setScale(1,1);
         sprite.setOrigin(0,0);
        
     }
-    if(direction.x<0.0f)
+    if(velocity.x<0.0f)
     {
         row=1;
        sprite.setScale(-1,1);
@@ -61,6 +117,7 @@ void Player::move(float dt,sf::Vector2f direction)
    {
        canjump=false;              
    }
+   
   
 }
 void Player::createBoundrect()
@@ -69,14 +126,6 @@ void Player::createBoundrect()
 }
 void Player::oncollision(sf::Vector2f& fromwhere)
 {
-    if(fromwhere.x<0)
-    {
-        velocity.x=0;
-    }
-    else if(fromwhere.x>0)
-    {
-        velocity.x=0;
-    }
     if(fromwhere.y<0)
     {
         velocity.y=0;
@@ -93,7 +142,7 @@ void Player::update(const float& dt)
     this->sprite.setTextureRect(a->r);
     this->sprite.move(this->velocity*dt);
     sprite.setOrigin(sf::Vector2f(a->r.width/2,a->r.height/2));
-    this->velocity.x=0;
+   
     this->rect->update();
  
    // text.setPosition(body.getPosition()+sf::Vector2f(406,-512));

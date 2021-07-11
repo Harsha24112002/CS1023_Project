@@ -3,15 +3,15 @@
 #include  <fstream>
 
 
-GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states)
-	:State(window,states)
+GameState::GameState(Statedata& state_info)
+	:State(state_info)
 {
 	this->initobjects();
 }
 
 GameState::~GameState()
 {
-
+	
 }
 
 void GameState::resize(sf::RenderWindow* window,sf::View* view)
@@ -19,34 +19,20 @@ void GameState::resize(sf::RenderWindow* window,sf::View* view)
 	view->setSize((float)window->getSize().x,(float)window->getSize().y);
 }
 
-void GameState::createobstacles()
-{
-	std::fstream file;
-	file.open("Config/obstaclepositions.ini");
-	if(file.is_open())
-	{
-		float c;
-		float d;
-		while(file>>c>>d)
-		{
-			obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(c,d)));
-		}
-	}
-	file.close();
-}
+
 
 void GameState::initobjects()
 {
 	player =new Player(textures["Player_body"]);
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
-	createobstacles();
+	
 	for(unsigned i=0;i<100;i++)
 	{
 		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(30*i,700)));
 	}
 	for (unsigned i=0;i<10;i++)
 	{
-		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(600+30*i,625)));
+		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(600+30*i,575)));
 	}
 	
 	for(unsigned j=0;j<4;j++)
@@ -79,6 +65,7 @@ void GameState::updateInput(const float& dt)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
+		view.reset(sf::FloatRect(0,0,1440,810));
 		this->endState();
 	}
 
@@ -110,7 +97,7 @@ void GameState::update(const float& dt)
 		a->update(dt);
 	}
 	this->player->update(dt);
-	window->setView(view);
+	//window->setView(view);
 }
 
 void GameState::render(sf::RenderTarget* target)

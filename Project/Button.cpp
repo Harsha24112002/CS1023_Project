@@ -67,15 +67,19 @@ void Button::update(const sf::Vector2f mousePos)
 	{
 	case BTN_IDLE:
 		this->text.setFillColor(this->idleColor);
+		this->text.setCharacterSize(40);
 		break;
 	case BTN_HOVER:
 		this->text.setFillColor(this->hoverColor);
+		this->text.setCharacterSize(60);
 		break;
 	case BTN_ACTIVE:
 		this->text.setFillColor(this->activeColor);
+		this->text.setCharacterSize(40);
 		break;
 	default:
 		this->text.setFillColor(sf::Color::Red);
+		this->text.setCharacterSize(40);
 		break;
 	}
 

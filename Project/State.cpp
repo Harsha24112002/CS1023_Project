@@ -1,12 +1,12 @@
 #include "State.h"
 
-State::State(sf::RenderWindow* window, std::stack<State*>* states)
+State::State(Statedata& state_info):stateinfo(state_info)
 {
 	this->inittextures();
-	this->window = window;
-	
-	this->states = states;
+	this->window = state_info.window;
+	this->states = state_info.states;
 	this->quit = false;
+	
 }
 
 State::~State()
@@ -16,14 +16,13 @@ State::~State()
 
 void State::inittextures()
 {
-	textures["Main_Menu_Background"].loadFromFile("Resources/Images/Backgrounds/RUN2WIN.jpeg");
 	textures["Player_body"].loadFromFile("Resources/Images/kit_from_firefox.png");
 	textures["Tile"].loadFromFile("Resources/Images/Basic_Ground_Top_Pixel.png");
 	textures["Underground"].loadFromFile("Resources/Images/Basic_Ground_Filler_Pixel.png");
 
 }
 
-const bool& State::getQuit() const
+bool State::getQuit() 
 {
 	return this->quit;
 }
@@ -39,4 +38,5 @@ void State::updateMousePositions()
 	this->mousePosScreen = sf::Mouse::getPosition();
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
+	this->mousePosGrid = sf::Vector2u(this->mousePosView.x/this->stateinfo.gridsize,this->mousePosView.y/this->stateinfo.gridsize);	
 }
