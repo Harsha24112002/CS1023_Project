@@ -7,7 +7,7 @@ Tilemap::Tilemap(float gridsize,float width,float height)
 	this->mapsize.x=width;
 	this->mapsize.y=height;
 	this->layers=1;
-	this->texture.loadFromFile("Resources/floortileset.png");
+	this->texture.loadFromFile("Resources/tiles_2.png");
 	for(unsigned x=0;x<mapsize.x;x++)
 	{
 		map.resize(mapsize.x,(std::vector<std::vector<Tile*>>()));

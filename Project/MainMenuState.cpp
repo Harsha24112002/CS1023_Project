@@ -90,16 +90,16 @@ void MainMenuState::updateButtons()
 		this->states->push(new GameState(stateinfo));
 	}
 
+	if(this->buttons["Interface"]->isPressed())
+	{
+		this->states->push(new Interface(stateinfo));
+	}
 	//Quit the game
 	if (this->buttons["EXIT_STATE"]->isPressed())
 	{
 		this->endState();
 	}
 	
-	if(this->buttons["Interface"]->isPressed())
-	{
-		this->states->push(new Interface(stateinfo));
-	}
 }
 
 void MainMenuState::update(const float& dt)

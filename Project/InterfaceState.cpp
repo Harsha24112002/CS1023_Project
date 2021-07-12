@@ -9,7 +9,7 @@ Interface::Interface(Statedata& state_info):State(state_info)
 	rect.setOutlineThickness(1.0f);
 	rect.setFillColor(sf::Color::Transparent);
 	this->texrect =sf::IntRect(0,0,(int)stateinfo.gridsize,(int)stateinfo.gridsize);
-	textureselector = new TextureSelector(20,20,100,100,tilemap->getTilesheet());
+	textureselector = new TextureSelector(20,20,10,10,stateinfo.gridsize,tilemap->getTilesheet());
 }
 
 void Interface::updatemousepos()
@@ -22,8 +22,12 @@ void Interface::updatemousepos()
 }
 void Interface::update(const float& dt)
 {
+
 	updatemousepos();
+	
 	this->updateInput(dt);
+	
+	textureselector->update(mousePosWindow);
 	rect.setPosition(sf::Vector2f((float)mousePosGrid.x*stateinfo.gridsize,(float)mousePosGrid.y*stateinfo.gridsize));
 	
 }
@@ -34,13 +38,17 @@ void Interface::render(sf::RenderTarget* target)
 	{
 		target=this->window;
 	}
-	textureselector->render(target);
+	
 	tilemap->render(target);
+	if(!textureselector->getactive())
+	{
 	target->draw(rect);
+	}
 	for(auto & a:buttons)
 	{
 		a.second->render(target);
 	}
+	textureselector->render(target);
 }
 
 
@@ -53,12 +61,18 @@ void Interface::updateInput(const float& dt)
 {
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
+		if(!textureselector->getactive())
 		tilemap->addtile(mousePosGrid.x,mousePosGrid.y,0,texrect);
+		else 
+		{
+		texrect= textureselector->getTexturerect();
+		}
 	}
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
 		tilemap->removetile(mousePosGrid.x,mousePosGrid.y,0);
 	}
+	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		this->endState();

@@ -38,7 +38,7 @@ void Game::initStateinfo()
 {
 	this->state_info.window=this->window;
 	this->state_info.states=&this->states;
-	this->state_info.gridsize=100.0f;
+	this->state_info.gridsize=80.0f;
 }
 
 void Game::initStates()
@@ -101,7 +101,6 @@ void Game::update()
 
 		if (this->states.top()->getQuit())
 		{
-			this->states.top()->endState();
 			delete this->states.top();
 			this->states.pop();
 		}

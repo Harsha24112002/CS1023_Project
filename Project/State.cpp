@@ -6,7 +6,7 @@ State::State(Statedata& state_info):stateinfo(state_info)
 	this->window = state_info.window;
 	this->states = state_info.states;
 	this->quit = false;
-	
+	this->totalquit=false;	
 }
 
 State::~State()
