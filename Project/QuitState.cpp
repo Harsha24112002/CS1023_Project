@@ -81,7 +81,7 @@ void QuitState::updateButtons()
 
 void QuitState::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(window->getDefaultView());
 	this->updateInput(dt);
 
 	this->updateButtons();
