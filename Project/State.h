@@ -48,7 +48,7 @@ public:
 
 	void endState();
 	void QuitGame();
-	virtual void updateMousePositions();
+	virtual void updateMousePositions(sf::View view);
 	void inittextures();
 
 	virtual void updateInput(const float& dt) = 0;

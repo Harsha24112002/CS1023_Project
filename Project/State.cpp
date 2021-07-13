@@ -43,10 +43,13 @@ void State::QuitGame()
 	this->totalquit = true;
 }
 
-void State::updateMousePositions()
+void State::updateMousePositions(sf::View view)
 {
 	this->mousePosScreen = sf::Mouse::getPosition();
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	window->setView(view);
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->mousePosGrid = sf::Vector2u(this->mousePosView.x/this->stateinfo.gridsize,this->mousePosView.y/this->stateinfo.gridsize);	
+	window->setView(window->getDefaultView());
 }
+
