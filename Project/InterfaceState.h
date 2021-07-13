@@ -18,6 +18,14 @@ class Interface : public State
 	sf::RectangleShape rect;
 	sf::IntRect texrect;
 	TextureSelector* textureselector;
+	sf::View view;
+	sf::Font f;
+	sf::Text mousetext;
+	int type;
+	bool collision;
+	float keytime;
+
+	void initView();
 	public:
 	
 	Interface(Statedata& state_info);
