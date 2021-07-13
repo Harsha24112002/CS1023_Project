@@ -1,5 +1,6 @@
 #include<SFML/Graphics.hpp>
 #include "Bound_Rect.h"
+#include "Tile.h"
 #ifndef COLLIDER_H
 #define COLLIDER_H
 class collider
