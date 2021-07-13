@@ -15,16 +15,17 @@ private:
 	std::vector<obstacle*> obstacles;
 	std::vector<obstacle*> underground;
 	sf::View view;
-
-	bool is_game_over;
-	bool check;
+	float time;
+	sf::RectangleShape background;
+	sf::Texture PlayerTexture;
 
 	//Functions
+	void initBackground();
 	void initKeybinds();
 	void initobjects();
 
 public:
-	GameState(Statedata& state_info);
+	GameState(Statedata& state_info, sf::Texture texture);
 	virtual ~GameState();
 
 	//Functions

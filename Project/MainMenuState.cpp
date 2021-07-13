@@ -35,10 +35,10 @@ void MainMenuState::initButtons()
 	this->buttons["GAME_STATE"] = new Button(100, 100, 250, 75,
 		&this->font, "PLAY",
 		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
-	
+
 	this->buttons["SETTINGS"] = new Button(100, 300, 250, 75,
 		&this->font, "Settings",
-		sf::Color(120,240,150,255), sf::Color::White, sf::Color(20, 20, 20, 200));
+		sf::Color(120, 240, 150, 255), sf::Color::White, sf::Color(20, 20, 20, 200));
 
 	this->buttons["Interface"] = new Button(100, 500, 250, 75,
 		&this->font, "Interface",
@@ -87,7 +87,7 @@ void MainMenuState::updateButtons()
 	//New game
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(new GameState(stateinfo));
+		this->states->push(new GameInfo(stateinfo));
 	}
 
 	//Quit the game
