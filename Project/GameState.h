@@ -12,14 +12,17 @@ class GameState:
 {
 private:
 	Player* player;
-	std::vector<obstacle*> obstacles;
-	std::vector<obstacle*> underground;
 	sf::View view;
+	Tilemap* tilemap;
 
+	sf::RenderTexture rendertexture;
+	sf::Sprite rendersprite;
 	bool is_game_over;
 	bool check;
 
 	//Functions
+	void initRenderTexture();
+	void initView();
 	void initKeybinds();
 	void initobjects();
 

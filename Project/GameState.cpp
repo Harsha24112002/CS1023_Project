@@ -7,16 +7,16 @@ GameState::GameState(Statedata& state_info)
 	:State(state_info)
 {
 	this->initobjects();
+	std::string s="Tilepositions.txt";
+	tilemap = new Tilemap(stateinfo.gridsize,24,14);
+	tilemap->Loadfromfile(s);
+	this->initView();
+	this->initRenderTexture();
 }
 
 GameState::~GameState()
 {
 	delete player;
-
-	for (auto i = obstacles.begin(); i < obstacles.end(); ++i)
-	{
-		delete* i;
-	}
 
 	/*
 	 -To restore the default view of the screen which was disturbed
@@ -30,8 +30,20 @@ void GameState::resize(sf::RenderWindow* window,sf::View* view)
 	view->setSize((float)window->getSize().x,(float)window->getSize().y);
 }
 
+void GameState::initView()
+{
+	view.setSize(static_cast<sf::Vector2f>(this->window->getSize()));
 
+	view.zoom(1);
+}
 
+void GameState::initRenderTexture()
+{
+	rendertexture.create(this->stateinfo.window->getSize().x,this->stateinfo.window->getSize().y);
+	rendersprite.setTexture(this->rendertexture.getTexture());
+	rendersprite.setTextureRect(sf::IntRect(0,0,this->stateinfo.window->getSize().x,this->stateinfo.window->getSize().y));
+	rendertexture.setView(view);
+}
 void GameState::initobjects()
 {
 	player =new Player(textures["Player_body"]);
@@ -39,22 +51,6 @@ void GameState::initobjects()
 	this->is_game_over = false;
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
-	for(unsigned i=0;i<100;i++)
-	{
-		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(30*i,700)));
-	}
-	for (unsigned i=0;i<10;i++)
-	{
-		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(600+30*i,575)));
-	}
-	
-	for(unsigned j=0;j<4;j++)
-	{
-	for(unsigned i=0;i<100;i++)
-	{
-		underground.push_back(new obstacle(textures["Underground"],sf::Vector2f(30*i,730+30*j)));
-	}
-	}
 }
 
 void GameState::updateInput(const float& dt)
@@ -78,7 +74,7 @@ void GameState::updateInput(const float& dt)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
-		view.reset(sf::FloatRect(0,0,1440,810));
+		window->setView(window->getDefaultView());
 		this->endState();
 	}
 
@@ -86,32 +82,22 @@ void GameState::updateInput(const float& dt)
 
 void GameState::update(const float& dt)
 {
-	this->resize(window,&view);
-	view.setCenter(player->getposition().x+500,player->getposition().y-200);
+	
+	view.setCenter(player->getposition().x+400,player->getposition().y);
 	unsigned count=0;
 	collider c=player->getcollider();
 	sf::Vector2f directionofcollison={0.0f,0.0f};
 	
-	this->updateMousePositions();
+	this->updateMousePositions(view);
 	
-	for(auto& a: obstacles)
-	{
-		if((a->getcollider().checkcollision(c,directionofcollison,1.0f)))
-		{
-			player->oncollision(directionofcollison);
-		} 
+	tilemap->checkcollison(player,directionofcollison);
 	
-		
-	}
 	//std::cout<<"("<<player->getposition().x<<":"<<player->getposition().y<<")"<<":"<<"("<<obstacles[0]->getposition().x<<":"<<obstacles[0]->getposition().y<<")"<<std::endl;
 	this->updateInput(dt);
-	for(auto& a : obstacles)
-	{
-		a->update(dt);
-	}
+	
 	this->player->update(dt);
-	window->setView(view);
-
+	tilemap->update();
+	
 	/*
 	  - Updating if the GameState is over or not.
 	  - If over then endState() functions is called and new QuitState is
@@ -141,14 +127,21 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		target = this->window;
 	}
+//	window->setView(view);
+	rendertexture.setView(view);
+	this->rendertexture.clear(sf::Color(150,150,150,150));
+	if(tilemap)
+	{
+		tilemap->render(&this->rendertexture);
+	}
 	
-	for(auto& a:this->obstacles)
-	{
-		a->render(*target);
-	}
-	for(auto a:this->underground)
-	{
-		a->render(*target);
-	}
-	this->player->render(target);
+	this->rendertexture.display();
+	
+	this->player->render(&this->rendertexture);
+	//std::cout<<rendertexture.getView().getCenter().x<<" "<<player->getposition().x<<std::endl;
+	//rendertexture.setView(rendertexture.getDefaultView());
+	rendersprite.setTexture(this->rendertexture.getTexture());
+	target->draw(this->rendersprite);
+
+
 }
