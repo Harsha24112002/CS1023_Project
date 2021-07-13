@@ -104,7 +104,7 @@ void MainMenuState::updateButtons()
 
 void MainMenuState::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(window->getDefaultView());
 	this->updateInput(dt);
 
 	this->updateButtons();
