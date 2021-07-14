@@ -37,6 +37,12 @@ std::ostream& operator<<(std::ostream& os,Tile t)
 
 	return os;
 }
+
+int Tile::gettype()
+{
+	return type;
+}
+
 bool Tile::getcollision()
 {
 	return collision;

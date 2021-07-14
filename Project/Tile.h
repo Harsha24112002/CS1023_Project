@@ -20,6 +20,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out,Tile);
 	collider getcollider();
+	int gettype();
 	bool getcollision();
 	void update();
 	void render(sf::RenderTarget* target);
