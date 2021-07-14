@@ -3,9 +3,10 @@
 #include  <fstream>
 
 
-GameState::GameState(Statedata& state_info)
+GameState::GameState(Statedata& state_info, sf::Texture texture)
 	:State(state_info)
 {
+	PlayerTexture = texture;
 	this->initobjects();
 	std::string s="Tilepositions.txt";
 	tilemap = new Tilemap(stateinfo.gridsize,24,14);
@@ -28,6 +29,7 @@ GameState::~GameState()
 void GameState::resize(sf::RenderWindow* window,sf::View* view)
 {
 	view->setSize((float)window->getSize().x,(float)window->getSize().y);
+	view->setCenter(player->getposition().x + 500, player->getposition().y - 200);
 }
 
 void GameState::initView()
@@ -44,11 +46,14 @@ void GameState::initRenderTexture()
 	rendersprite.setTextureRect(sf::IntRect(0,0,this->stateinfo.window->getSize().x,this->stateinfo.window->getSize().y));
 	rendertexture.setView(view);
 }
+void GameState::initBackground()
+{
+
+}
+
 void GameState::initobjects()
 {
-	player =new Player(textures["Player_body"]);
-	this->check = false;
-	this->is_game_over = false;
+	player =new Player(PlayerTexture);
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
 }
@@ -72,10 +77,12 @@ void GameState::updateInput(const float& dt)
 	
 	this->player->move(dt,direction);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	time += dt;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && time > 0.2)
 	{
 		window->setView(window->getDefaultView());
 		this->endState();
+		time = 0;
 	}
 
 }
@@ -108,17 +115,10 @@ void GameState::update(const float& dt)
 	*/
 	if (player->IsGameOver())
 	{
-		is_game_over = true;
 		this->endState();
-	}
-
-	if (is_game_over && (!check))
-	{
-		check = true;
 		this->window->setView(window->getDefaultView());
 		this->states->push(new QuitState(this->stateinfo));
 	}
-
 }
 
 void GameState::render(sf::RenderTarget* target)

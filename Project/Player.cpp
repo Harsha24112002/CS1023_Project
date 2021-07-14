@@ -4,31 +4,41 @@ Player::Player(sf::Texture tex)
 {
    
     this->t=tex;
-    this->sprite.setTexture(t);
     this->initvariables();
 }
+
+Player::~Player()
+{
+    delete rect;
+}
+
 void Player::initvariables()
 {
-    this->sprite.setPosition(sf::Vector2f(200,600));
     this->nimages.x=3;
     this->nimages.y=9;
     this->switchtime=0.25f;
-    this->a= new animation(&t,this->nimages,this->switchtime);
+    
+    this->sprite.setTexture(t);
+    this->a = new animation(&t, this->nimages, this->switchtime);
+    this->sprite.setTextureRect(a->r);
+    this->sprite.setPosition(sf::Vector2f(460,700));
+    
     this->jumpheight=100.0f;
     
     this->row=0;
     this->canjump=false;
+    this->bounceup = false;
     this->rightface=true;
     this->velocity.x=0;
     this->velocity.y=0;
-    this->acceleration.x=300;
-    this->maxspeed=250.0f;
+    this->acceleration.x=500;
+    this->maxspeed=300.0f;
     this->createBoundrect();
     this->deceleration=-500;
 }
 void Player::move(float dt,sf::Vector2f direction)
 {  
-    
+    this->dt = dt;
     if(direction.x>0.5f)
     {
        if(velocity.x>=0)
@@ -107,7 +117,7 @@ void Player::move(float dt,sf::Vector2f direction)
             velocity.y=-sqrt(2*1000*150.0f);
         }
     }
-    a->update(row,direction.x,dt);
+    a->update(row, (int)direction.x, dt);
   
    if(canjump==false)
    {
@@ -115,10 +125,9 @@ void Player::move(float dt,sf::Vector2f direction)
    }
    if(canjump)
    {
-       canjump=false;              
+       canjump=false;            
    }
    
-  
 }
 void Player::createBoundrect()
 {
@@ -144,9 +153,7 @@ bool Player::IsGameOver()
         - If player has fallen then return true to the IsGameOver.
     */
     if (this->sprite.getPosition().y < 1000)
-    {
         return false;
-    }
     else
         return true;
 }
@@ -156,7 +163,7 @@ void Player::update(const float& dt)
     
     this->sprite.setTextureRect(a->r);
     this->sprite.move(this->velocity*dt);
-    sprite.setOrigin(sf::Vector2f(a->r.width/2,a->r.height/2));
+    sprite.setOrigin(sf::Vector2f((double)(a->r.width) / 2.0 , (double)(a->r.height) / 2.0 ));
    
     this->rect->update();
  

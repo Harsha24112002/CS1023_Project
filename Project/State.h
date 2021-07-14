@@ -29,6 +29,7 @@ protected:
 	std::map<std::string, int> keybinds;
 	bool quit;
 	bool totalquit;
+	bool playagain;
 	Statedata& stateinfo;
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
@@ -36,6 +37,7 @@ protected:
 	sf::Vector2u mousePosGrid;
 	//Resources 
 	std::map<std::string,sf::Texture> textures;
+	sf::Texture playerbody;
 
 	//Functions 
 	
@@ -45,10 +47,12 @@ public:
 
 	bool getQuit() ;
 	const bool& getTotalQuit() const;
+	const bool& getPlayAgain() const;
 
 	void endState();
 	void QuitGame();
 	virtual void updateMousePositions(sf::View view);
+	void PlayAgain();
 	void inittextures();
 
 	virtual void updateInput(const float& dt) = 0;

@@ -18,7 +18,8 @@ class Button
 {
 private:
 	unsigned buttonStates;
-	
+	bool isButtonFrezzed;
+
 	sf::RectangleShape shape;
 	sf::Font* font;
 	sf::Text text;
@@ -38,6 +39,10 @@ public:
 
 	//Accessors
 	const bool isPressed() const;
+	void RenameButton(std::string str);
+	void DeRenameButton(std::string str);
+	void FrezzeButton();
+	void DefrezzeButton();
 
 	//Functions
 	void update(const sf::Vector2f mousePos);

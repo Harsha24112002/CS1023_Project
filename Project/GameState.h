@@ -23,11 +23,17 @@ private:
 	//Functions
 	void initRenderTexture();
 	void initView();
+	float time;
+	sf::RectangleShape background;
+	sf::Texture PlayerTexture;
+
+	//Functions
+	void initBackground();
 	void initKeybinds();
 	void initobjects();
 
 public:
-	GameState(Statedata& state_info);
+	GameState(Statedata& state_info, sf::Texture texture);
 	virtual ~GameState();
 
 	//Functions
