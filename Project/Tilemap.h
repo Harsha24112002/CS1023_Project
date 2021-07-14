@@ -13,10 +13,15 @@ private:
 	float gridsizef;
 	sf::Texture texture;
 
+	int fromX;
+	int fromY;
+	int toX;
+	int toY;
+
 public:
 	Tilemap(float gridsize,unsigned width,unsigned height);
 	~Tilemap();
-	void update();
+	void update(sf::Vector2i Playergridpos);
 	sf::Texture* getTilesheet(){return &texture;}
 	void render(sf::RenderTarget* target);
 	void addtile(unsigned x,unsigned y,unsigned z,sf::IntRect& texturerect,int type,bool collision);

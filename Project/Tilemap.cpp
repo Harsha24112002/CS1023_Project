@@ -23,24 +23,69 @@ Tilemap::Tilemap(float gridsize,unsigned width,unsigned height)
 	}
 	}
 
+	fromX=0;
+	fromY=0;
+	toX=0;
+	toY=0;
+
 }
 Tilemap::~Tilemap()
 {
 
 } 
-void Tilemap::update()
+void Tilemap::update(sf::Vector2i Playergridpos)
 {
-	for(auto& a:map)
+	
+	fromX=Playergridpos.x-12;
+
+	fromY=Playergridpos.y-12;
+	
+	if(fromX<0)
 	{
-		for(auto& b : a)
+		fromX=0;
+	}
+	if(fromX >=mapsize.x)
+	{
+		fromX=mapsize.x-1;
+	}
+	if(fromY<0)
+	{
+		fromY=0;
+	}
+	if(fromY >=mapsize.y)
+	{
+		fromY=mapsize.y-1;
+	}
+	toX=fromX+24;
+	toY=fromY+24;
+	if(toX<0)
+	{
+		toX=0;
+	}
+	if(toX >=mapsize.x)
+	{
+		toX=mapsize.x-1;
+	}
+	if(toY<0)
+	{
+		toY=0;
+	}
+	if(toY >=mapsize.y)
+	{
+		toY=mapsize.y-1;
+	}
+	//std::cout<<fromX<<":"<<fromY<<":"<<toX<<":"<<toY<<std::endl; 
+	for(unsigned x=fromX;x<toX;x++)
+	{
+		for(unsigned y=fromY;y<toY;y++)
 		{
-			for(auto& c:b)
+			for(unsigned z=0;z<layers;z++)
 			{
-				if(c!=nullptr)
+				if(map[x][y][z]!=nullptr)
 				{
-					c->update();
+					map[x][y][z]->update();
 				}
-			}		
+			}
 		}
 	}
 }
@@ -144,14 +189,16 @@ void Tilemap::Loadfromfile(std::string& filename)
 
 void Tilemap::render(sf::RenderTarget* target)
 {
-	for(auto& a:this->map)
+	for(unsigned x=fromX;x<toX;x++)
 	{
-		for(auto& b:a)
+		for(unsigned y=fromY;y<toY;y++)
 		{
-			for(auto& c:b)
+			for(unsigned z=0;z<layers;z++)
 			{
-				if(c!=nullptr)
-				c->render(target);
+				if(map[x][y][z]!=nullptr)
+				{
+					map[x][y][z]->render(target);
+				}
 			}
 		}
 	}
