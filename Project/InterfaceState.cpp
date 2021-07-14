@@ -26,6 +26,16 @@ Interface::Interface(Statedata& state_info):State(state_info)
 	
 	this->initView();
 }
+
+Interface::~Interface()
+{
+	delete textureselector;
+
+	for(auto& a:buttons)
+	{
+		delete a.second;
+	}
+}
 void Interface::initView()
 {
 	view.setSize(window->getDefaultView().getSize());	
@@ -43,10 +53,15 @@ void Interface::update(const float& dt)
 {
 	keytime+=dt;
 	updatemousepos();
+	if(tilemap)
+	{
 	tilemap->update(sf::Vector2i((view.getCenter().x/stateinfo.gridsize),(view.getCenter().y/stateinfo.gridsize)));
+	}
 	this->updateInput(dt);
-	
+	if(textureselector)
+	{
 	textureselector->update(mousePosWindow);
+	}
 	rect.setPosition(sf::Vector2f((float)mousePosGrid.x*stateinfo.gridsize,(float)mousePosGrid.y*stateinfo.gridsize));
 	mousetext.setPosition(mousePosView.x+10,mousePosView.y-10);
 	mousetext.setString("collision : "+std::to_string(collision)+"\n"+"Type: "+std::to_string(type));
@@ -60,8 +75,10 @@ void Interface::render(sf::RenderTarget* target)
 		target=this->window;
 	}
 	target->setView(view);
+	if(tilemap)
+	{
 	tilemap->render(target);
-	
+	}
 	if(!textureselector->getactive())
 	{
 	target->draw(rect);
@@ -72,8 +89,10 @@ void Interface::render(sf::RenderTarget* target)
 	{
 		a.second->render(target);
 	}
+	if(textureselector)
+	{
 	textureselector->render(target);
-	
+	}
 }
 
 
@@ -105,6 +124,7 @@ void Interface::updateInput(const float& dt)
 	{
 		if(!textureselector->getactive())
 		{
+		if(tilemap)
 		tilemap->addtile(mousePosGrid.x,mousePosGrid.y,0,texrect,type,collision);
 		}
 		else 
@@ -114,6 +134,7 @@ void Interface::updateInput(const float& dt)
 	}
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
+		if(tilemap)
 		tilemap->removetile(mousePosGrid.x,mousePosGrid.y,0);
 	}
 	

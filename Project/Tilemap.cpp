@@ -31,14 +31,23 @@ Tilemap::Tilemap(float gridsize,unsigned width,unsigned height)
 }
 Tilemap::~Tilemap()
 {
-
+	for(auto& a:map)
+	{
+		for(auto&b :a)
+		{
+			for(auto&c : b)
+			{
+				delete c;
+			}
+		}
+	}
 } 
 void Tilemap::update(sf::Vector2i Playergridpos)
 {
 	
 	fromX=Playergridpos.x-12;
 
-	fromY=Playergridpos.y-12;
+	fromY=Playergridpos.y-6;
 	
 	if(fromX<0)
 	{
@@ -57,7 +66,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 		fromY=mapsize.y-1;
 	}
 	toX=fromX+24;
-	toY=fromY+24;
+	toY=fromY+12;
 	if(toX<0)
 	{
 		toX=0;

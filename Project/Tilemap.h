@@ -20,7 +20,7 @@ private:
 
 public:
 	Tilemap(float gridsize,unsigned width,unsigned height);
-	~Tilemap();
+	virtual ~Tilemap();
 	void update(sf::Vector2i Playergridpos);
 	sf::Texture* getTilesheet(){return &texture;}
 	void render(sf::RenderTarget* target);

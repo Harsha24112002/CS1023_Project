@@ -34,7 +34,7 @@ GameState::GameState(Statedata& state_info)
 GameState::~GameState()
 {
 	delete player;
-
+	delete tilemap;
 	/*
 	 -To restore the default view of the screen which was disturbed
 	  by the sf::View when player is moving
@@ -126,6 +126,7 @@ void GameState::update(const float& dt)
 	this->updateInput(dt);
 	
 	this->player->update(dt);
+	if(tilemap)
 	tilemap->update(sf::Vector2i((view.getCenter().x/stateinfo.gridsize),(view.getCenter().y/stateinfo.gridsize)));
 
 	/*

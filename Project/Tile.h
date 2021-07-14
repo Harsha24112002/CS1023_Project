@@ -16,7 +16,7 @@ private:
 public:
 	Tile();
 	Tile(float x,float y,float gridsize,sf::Texture& texture,sf::IntRect& texturerect,int type,bool collison);
-	~Tile();
+	virtual ~Tile();
 
 	friend std::ostream& operator<<(std::ostream& out,Tile);
 	collider getcollider();

@@ -10,6 +10,10 @@ animation::animation(sf::Texture* tex,sf::Vector2f nimages,float stime):nofimage
     rightface=true;
     
 }
+animation::~animation()
+{
+
+}
 void animation::update(int row,int directionx,float deltatime)
 {
    

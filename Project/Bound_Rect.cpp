@@ -15,6 +15,10 @@ Boundrect::Boundrect(sf::Sprite& sprite,sf::Vector2f offset,float width,float he
 	rectbound.height=height;
 }
 
+Boundrect::~Boundrect()
+{
+	
+}
 void Boundrect::move(sf::Vector2f pos)
 {
 	sprite.move(pos);

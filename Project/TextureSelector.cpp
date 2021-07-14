@@ -32,6 +32,10 @@ TextureSelector::TextureSelector(unsigned x,unsigned y,unsigned width,unsigned h
 	texturerect.top=0;
 
 }
+TextureSelector::~TextureSelector()
+{
+	
+}
 bool TextureSelector::getactive()
 {
 	return this->active;

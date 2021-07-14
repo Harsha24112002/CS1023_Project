@@ -13,6 +13,7 @@ class Boundrect
 	public:
 
 	Boundrect(sf::Sprite& sprite,sf::Vector2f offset,float width,float height);
+	virtual ~Boundrect();
 	void update();
 	void render(sf::RenderTarget* Target);
 	void move(sf::Vector2f pos);

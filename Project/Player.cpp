@@ -10,6 +10,7 @@ Player::Player(sf::Texture tex)
 Player::~Player()
 {
     delete rect;
+    delete a;
 }
 
 void Player::initvariables()

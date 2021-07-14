@@ -29,7 +29,7 @@ class Interface : public State
 	public:
 	
 	Interface(Statedata& state_info);
-
+	virtual ~Interface();
 	void updatemousepos();
 	void update(const float& dt);
 	void updateInput(const float& dt);
