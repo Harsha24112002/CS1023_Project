@@ -3,9 +3,10 @@
 #include  <fstream>
 
 
-GameState::GameState(Statedata& state_info)
+GameState::GameState(Statedata& state_info, sf::Texture texture)
 	:State(state_info)
 {
+	PlayerTexture = texture;
 	this->initobjects();
 }
 
@@ -28,31 +29,36 @@ GameState::~GameState()
 void GameState::resize(sf::RenderWindow* window,sf::View* view)
 {
 	view->setSize((float)window->getSize().x,(float)window->getSize().y);
+	view->setCenter(player->getposition().x + 500, player->getposition().y - 200);
 }
 
 
 
+void GameState::initBackground()
+{
+
+}
+
 void GameState::initobjects()
 {
-	player =new Player(textures["Player_body"]);
-	this->check = false;
-	this->is_game_over = false;
+	player =new Player(PlayerTexture);
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
-	for(unsigned i=0;i<100;i++)
-	{
-		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(30*i,700)));
-	}
 	for (unsigned i=0;i<10;i++)
 	{
-		obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(600+30*i,575)));
+		obstacles.push_back(new obstacle(textures["Tile"], sf::Vector2f(860 + 30 * i + 0.0f, 715.f)));
 	}
 	
+	for (unsigned i = 0; i < 100; i++)
+	{
+		obstacles.push_back(new obstacle(textures["Tile"], sf::Vector2f(260+30 * i + 0.0f, 840.f)));
+	}
+
 	for(unsigned j=0;j<4;j++)
 	{
 	for(unsigned i=0;i<100;i++)
 	{
-		underground.push_back(new obstacle(textures["Underground"],sf::Vector2f(30*i,730+30*j)));
+		underground.push_back(new obstacle(textures["Underground"], sf::Vector2f(260+30 * i + 0.0f, 870.f + 30 * j)));
 	}
 	}
 }
@@ -76,10 +82,11 @@ void GameState::updateInput(const float& dt)
 	
 	this->player->move(dt,direction);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	time += dt;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && time > 0.2)
 	{
-		view.reset(sf::FloatRect(0,0,1440,810));
 		this->endState();
+		time = 0;
 	}
 
 }
@@ -87,7 +94,8 @@ void GameState::updateInput(const float& dt)
 void GameState::update(const float& dt)
 {
 	this->resize(window,&view);
-	view.setCenter(player->getposition().x+500,player->getposition().y-200);
+	window->setView(view);
+	
 	unsigned count=0;
 	collider c=player->getcollider();
 	sf::Vector2f directionofcollison={0.0f,0.0f};
@@ -110,7 +118,7 @@ void GameState::update(const float& dt)
 		a->update(dt);
 	}
 	this->player->update(dt);
-	window->setView(view);
+	
 
 	/*
 	  - Updating if the GameState is over or not.
@@ -122,17 +130,10 @@ void GameState::update(const float& dt)
 	*/
 	if (player->IsGameOver())
 	{
-		is_game_over = true;
 		this->endState();
-	}
-
-	if (is_game_over && (!check))
-	{
-		check = true;
 		this->window->setView(window->getDefaultView());
 		this->states->push(new QuitState(this->stateinfo));
 	}
-
 }
 
 void GameState::render(sf::RenderTarget* target)
@@ -141,14 +142,16 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		target = this->window;
 	}
+	target->draw(this->background);
 	
 	for(auto& a:this->obstacles)
 	{
 		a->render(*target);
 	}
-	for(auto a:this->underground)
+	for (auto a : this->underground)
 	{
 		a->render(*target);
 	}
+
 	this->player->render(target);
 }

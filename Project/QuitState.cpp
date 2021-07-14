@@ -69,7 +69,7 @@ void QuitState::updateButtons()
 	//New game
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->endState();
+		this->PlayAgain();
 	}
 
 	//Quit the game

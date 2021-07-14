@@ -116,6 +116,17 @@ void Game::update()
 				this->states.pop();
 			}
 		}
+
+		else if (this->states.top()->getPlayAgain())
+		{
+			while (this->states.size() != 1)
+			{
+				delete this->states.top();
+
+				this->states.pop();
+			}
+		}
+
 	}
 	//Application end
 	else

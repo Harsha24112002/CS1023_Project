@@ -29,9 +29,11 @@ class Player
     sf::Vector2f velocity;
     int row;
     bool canjump;
+    bool bounceup;
     float jumpheight;
     sf::Vector2f nimages;
     float switchtime;
+    float dt;
     animation* a;
     sf::Texture t;
     sf::Vector2f acceleration;
@@ -49,6 +51,7 @@ class Player
 
     //functions
     Player(sf::Texture);
+    ~Player();
     
     void createBoundrect();
     void update(const float& dt);
