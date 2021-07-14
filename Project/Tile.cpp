@@ -23,7 +23,7 @@ Tile::Tile()
 
 Tile::~Tile()
 {
-
+	delete boundrect;
 }
 
 collider Tile::getcollider()
