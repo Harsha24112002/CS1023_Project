@@ -24,7 +24,7 @@ void State::inittextures()
 	textures["Underground"].loadFromFile("Resources/Images/Basic_Ground_Filler_Pixel.png");
 	textures["Quit_Background"].loadFromFile("Resources/Images/QuitState_Image.jpeg");
 	textures["GameInfo_Background"].loadFromFile("Resources/Images/GameInfo_Backgound.jpg");
-	textures["Back_Image"].loadFromFile("Resources/Images/Back.png");
+	textures["Back_Image"].loadFromFile("Resources/Images/back.png");
 	textures["Next_Image1"].loadFromFile("Resources/Images/next1.png");
 	textures["Next_Image2"].loadFromFile("Resources/Images/next2.png");
 }

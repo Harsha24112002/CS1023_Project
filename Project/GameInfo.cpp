@@ -106,7 +106,7 @@ void GameInfo::updateButtons()
 
 void GameInfo::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(window->getView());
 	this->updateInput(dt);
 
 	this->updateButtons();

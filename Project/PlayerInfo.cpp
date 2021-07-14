@@ -252,7 +252,7 @@ void PlayerInfo::updateButtons()
 
 void PlayerInfo::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(window->getView());
 	this->updateInput(dt);
 
 	this->updateButtons();
