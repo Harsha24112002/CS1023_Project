@@ -7,7 +7,7 @@
 #include "Tilemap.h"
 #include "QuitState.h"
 
-class GameState:
+class GameState :
 	public State
 {
 private:
@@ -37,11 +37,11 @@ public:
 	virtual ~GameState();
 
 	//Functions
-	
+
 	void updateInput(const float& dt);
 	void update(const float& dt);
 	void render(sf::RenderTarget* target = NULL);
-	void resize(sf::RenderWindow* window,sf::View* view);
+	void resize(sf::RenderWindow* window, sf::View* view);
 
 };
 

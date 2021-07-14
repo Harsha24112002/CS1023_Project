@@ -1,3 +1,4 @@
+
 #include "GameInfo.h"
 
 void GameInfo::initBackground()
@@ -10,7 +11,7 @@ void GameInfo::initBackground()
 		)
 	);
 	this->background.setTexture(&(State::textures["GameInfo_Background"]));
-	
+
 	this->back.setSize(sf::Vector2f(50.f, 50.f));
 	this->back.setPosition(sf::Vector2f(25.f, 25.f));
 	this->back.setTexture(&(State::textures["Back_Image"]));
@@ -36,7 +37,7 @@ void GameInfo::initButtons()
 		sf::Color::Black, sf::Color::White, sf::Color(20, 20, 20, 200));
 
 
-	this->buttons["LEVEL"] = new Button(800,650, 250, 75,
+	this->buttons["LEVEL"] = new Button(800, 650, 250, 75,
 		&this->font, "Levels",
 		sf::Color::Black, sf::Color::White, sf::Color(20, 20, 20, 200));
 
@@ -71,7 +72,7 @@ void GameInfo::updateInput(const float& dt)
 			this->endState();
 		}
 	}
-	else 
+	else
 	{
 		this->back.setSize(sf::Vector2f(50.f, 50.f));
 		this->back.setPosition(sf::Vector2f(25.f, 25.f));

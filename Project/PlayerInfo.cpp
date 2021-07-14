@@ -50,7 +50,7 @@ void PlayerInfo::initPlayers()
 	this->buttons.insert(std::pair<std::string, Button*>("Player_body", new Button(910, 640, 100, 50,
 		&this->font, "Select",
 		sf::Color::Black, sf::Color::Red, sf::Color(20, 20, 20, 200))
-	    ));
+		));
 
 	this->buttons.insert(std::pair<std::string, Button*>("Player_body2", new Button(910, 640, 100, 50,
 		&this->font, "Select",
@@ -133,12 +133,12 @@ void PlayerInfo::updateInput(const float& dt)
 		{
 			if (currentnum != players.size())
 			{
-			this->next1.setSize(sf::Vector2f(200.f, 200.f));
-			this->next1.setPosition(sf::Vector2f(1720.f, 440.f));
+				this->next1.setSize(sf::Vector2f(200.f, 200.f));
+				this->next1.setPosition(sf::Vector2f(1720.f, 440.f));
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+
 					itr++;
 					button_itr++;
 					sf::Texture tex = *(*itr).getTexture();
@@ -182,12 +182,12 @@ void PlayerInfo::updateInput(const float& dt)
 		{
 			if (currentnum != 1)
 			{
-			this->next2.setSize(sf::Vector2f(200.f, 200.f));
-			this->next2.setPosition(sf::Vector2f(0.f, 440.f));
+				this->next2.setSize(sf::Vector2f(200.f, 200.f));
+				this->next2.setPosition(sf::Vector2f(0.f, 440.f));
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+
 					itr--;
 					button_itr--;
 					sf::Texture tex = *(*itr).getTexture();
@@ -219,14 +219,14 @@ void PlayerInfo::updateButtons()
 	{
 		it.second->update(this->mousePosView);
 	}*/
-	
+
 	/*if (this->buttons["Select"]->isPressed())
 	{
 		this->playerbody = *(*itr).getTexture();
 		this->buttons["Select"]->RenameButton("Selected");
 		this->buttons["Select"]->FrezzeButton();
 	}*/
-	
+
 	PlayGameButton->update(this->mousePosView);
 	button_itr->second->update(this->mousePosView);
 
@@ -237,8 +237,8 @@ void PlayerInfo::updateButtons()
 			it->second->DeRenameButton("Select");
 			it->second->DefrezzeButton();
 		}
-		
-		stateinfo.activetexture =currentnum-1;
+
+		stateinfo.activetexture = currentnum - 1;
 		this->button_itr->second->RenameButton("Selected");
 		this->button_itr->second->FrezzeButton();
 	}
@@ -265,7 +265,7 @@ void PlayerInfo::renderButtons(sf::RenderTarget* target)
 	{
 		it.second->render(target);
 	}*/
-	
+
 	PlayGameButton->render(target);
 
 	button_itr->second->render(target);
@@ -280,7 +280,7 @@ void PlayerInfo::render(sf::RenderTarget* target)
 	}
 
 	//target->draw(this->background);
-	
+
 	target->draw(*itr);
 	target->draw(this->next1);
 	target->draw(this->next2);

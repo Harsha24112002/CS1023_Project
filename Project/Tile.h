@@ -6,7 +6,7 @@
 class Tile
 {
 private:
-	
+
 	sf::Sprite tilesprite;
 	bool collision;
 	Boundrect* boundrect;
@@ -15,10 +15,10 @@ private:
 	int type;
 public:
 	Tile();
-	Tile(float x,float y,float gridsize,sf::Texture& texture,sf::IntRect& texturerect,int type,bool collison);
+	Tile(float x, float y, float gridsize, sf::Texture& texture, sf::IntRect& texturerect, int type, bool collison);
 	virtual ~Tile();
 
-	friend std::ostream& operator<<(std::ostream& out,Tile);
+	friend std::ostream& operator<<(std::ostream& out, Tile);
 	collider getcollider();
 	bool getcollision();
 	void update();
