@@ -15,7 +15,8 @@ Interface::Interface(Statedata& state_info):State(state_info)
 	type=0;
 	collision=false;
 	keytime=0.0f;
-	
+	clicktime=0.0f;
+
 	f.loadFromFile("Fonts/BodoniFLF-Bold.ttf");
 
 	mousetext.setFont(f);
@@ -52,6 +53,7 @@ void Interface::updatemousepos()
 void Interface::update(const float& dt)
 {
 	keytime+=dt;
+	clicktime+=dt;
 	updatemousepos();
 	if(tilemap)
 	{
@@ -125,17 +127,19 @@ void Interface::updateInput(const float& dt)
 		if(!textureselector->getactive())
 		{
 		if(tilemap)
-		tilemap->addtile(mousePosGrid.x,mousePosGrid.y,0,texrect,type,collision);
+		tilemap->addtile(mousePosGrid.x,mousePosGrid.y,texrect,type,collision);
 		}
 		else 
 		{
 		texrect= textureselector->getTexturerect();
 		}
+
 	}
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	if(sf::Mouse::isButtonPressed(sf::Mouse::Right)&& clicktime>0.3f)
 	{
 		if(tilemap)
-		tilemap->removetile(mousePosGrid.x,mousePosGrid.y,0);
+		tilemap->removetile(mousePosGrid.x,mousePosGrid.y);
+		clicktime=0;
 	}
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))

@@ -24,7 +24,7 @@ class Interface : public State
 	int type;
 	bool collision;
 	float keytime;
-
+	float clicktime;
 	void initView();
 	public:
 	

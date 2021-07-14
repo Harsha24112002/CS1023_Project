@@ -6,7 +6,7 @@ Tilemap::Tilemap(float gridsize,unsigned width,unsigned height)
 	this->gridsizef =gridsize;
 	this->mapsize.x=width;
 	this->mapsize.y=height;
-	this->layers=1;
+	//this->layers=1;
 //	std::cout<<mapsize.x<<mapsize.y<<std::endl;
 	this->texture.loadFromFile("Resources/tiles_2.png");
 	for(unsigned x=0;x<mapsize.x;x++)
@@ -15,12 +15,9 @@ Tilemap::Tilemap(float gridsize,unsigned width,unsigned height)
 		for(unsigned y=0;y<mapsize.y;y++)
 		{
 			
-		map[x].resize(mapsize.y,std::vector<Tile*>());
-		for(unsigned z=0;z<layers;z++)
-		{
-			map[x][y].resize(layers,nullptr);				
+		map[x].resize(mapsize.y,std::vector<Tile*>());	
+		
 		}
-	}
 	}
 
 	fromX=0;
@@ -88,7 +85,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 	{
 		for(unsigned y=fromY;y<toY;y++)
 		{
-			for(unsigned z=0;z<layers;z++)
+			for(unsigned z=0;z<map[x][y].size();z++)
 			{
 				if(map[x][y][z]!=nullptr)
 				{
@@ -98,29 +95,41 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 		}
 	}
 }
-void Tilemap::addtile(unsigned x,unsigned y ,unsigned z,sf::IntRect& texturerect,int type,bool collison)
+bool Tilemap::checksametype(std::vector<Tile*> layer,int type)
+{
+	for(auto& a:layer)
+	{
+		if(a->gettype()==type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+void Tilemap::addtile(unsigned x,unsigned y ,sf::IntRect& texturerect,int type,bool collison)
 {
 	if(x<mapsize.x && x>=0 &&y<mapsize.y && y>=0)
 	{
-	if(map[x][y][z]==nullptr)
+	if(!checksametype(map[x][y],type))
 	{
-		map[x][y][z]=(new Tile(x*gridsizef,y*gridsizef,gridsizef,texture,texturerect,type,collison));
+	map[x][y].push_back(new Tile(x*gridsizef,y*gridsizef,gridsizef,texture,texturerect,type,collison));
 	}
 	}
 }
-void Tilemap::removetile(unsigned x,unsigned y ,unsigned z)
+void Tilemap::removetile(unsigned x,unsigned y )
 {
-	if(map[x][y][z]!=nullptr)
+	if(map[x][y][map[x][y].size()-1]!=nullptr)
 	{
-		delete map[x][y][z];
-		map[x][y][z]=nullptr;
+		delete map[x][y][map[x][y].size()-1];
+		map[x][y].pop_back();
+		map[x][y][map[x][y].size()-1]=nullptr;
 	}
 }
 
 void Tilemap::checkcollison(Player* player,sf::Vector2f& direction)
 {
 	collider collider=player->getcollider();
-	for(auto& a:map)
+	/*for(auto& a:map)
 	{
 		for(auto& b: a)
 		{
@@ -135,6 +144,20 @@ void Tilemap::checkcollison(Player* player,sf::Vector2f& direction)
 				}
 			}
 		}
+	}*/
+	for(unsigned x=fromX;x<toX;x++)
+	{
+		for(unsigned y=fromY;y<toY;y++)
+		{
+			for(unsigned z=0;z<map[x][y].size();z++)
+			{
+				if(map[x][y][z]!=nullptr)
+				{
+					if(map[x][y][z]->getcollider().checkcollision(collider,direction,1.0f))
+					player->oncollision(direction);
+				}
+			}
+		}
 	}
 }
 
@@ -144,7 +167,7 @@ void Tilemap::savetofile(std::string& filename)
 	savefile.open(filename);
 	if(savefile.is_open())
 	{
-		savefile<<mapsize.x<<" "<<mapsize.y<<"\n"<<gridsizef<<"\n"<<layers<<"\n";
+		savefile<<mapsize.x<<" "<<mapsize.y<<"\n"<<gridsizef<<"\n"<<"\n";
 		for(auto& a:map)
 		{
 			for(auto& b:a)
@@ -172,7 +195,7 @@ void Tilemap::Loadfromfile(std::string& filename)
 		{
 
 		}
-		if(loadfile>>gridsizef>>layers)
+		if(loadfile>>gridsizef)
 		{
 
 		}
@@ -186,10 +209,7 @@ void Tilemap::Loadfromfile(std::string& filename)
 			int b=positions.y/gridsizef;
 			texrect.width=(float)gridsizef;
 			texrect.height=(float)gridsizef;
-			if(map[a][b][0]==nullptr)
-			{
-			map[a][b][0]= new Tile(positions.x,positions.y,gridsizef,texture,texrect,type,collison);
-			}
+			map[a][b].push_back(new Tile(positions.x,positions.y,gridsizef,texture,texrect,type,collison));
 		}
 
 	}
@@ -202,7 +222,7 @@ void Tilemap::render(sf::RenderTarget* target)
 	{
 		for(unsigned y=fromY;y<toY;y++)
 		{
-			for(unsigned z=0;z<layers;z++)
+			for(unsigned z=0;z<map[x][y].size();z++)
 			{
 				if(map[x][y][z]!=nullptr)
 				{
