@@ -211,7 +211,7 @@ void Interface::updateInput(const float& dt)
 			{
 				if (!textureselector->getactive())
 				{
-					tilemap->addtile(mousePosGrid.x, mousePosGrid.y, 0, texrect, type, collision);
+					tilemap->addtile(mousePosGrid.x, mousePosGrid.y, texrect, type, collision);
 				}
 				else
 				{
@@ -220,7 +220,7 @@ void Interface::updateInput(const float& dt)
 			}
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 			{
-				tilemap->removetile(mousePosGrid.x, mousePosGrid.y, 0);
+				tilemap->removetile(mousePosGrid.x, mousePosGrid.y);
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
