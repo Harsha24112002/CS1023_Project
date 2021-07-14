@@ -22,7 +22,7 @@ void Game::initWindow()
 	std::string title = "None";
 	sf::VideoMode window_bounds = sf::VideoMode::getDesktopMode();
 	
-	unsigned framerate_limit = 120;
+	unsigned framerate_limit = 60;
 	bool vertical_sync_enabled = false;
 	
 
@@ -39,6 +39,7 @@ void Game::initStateinfo()
 	this->state_info.window=this->window;
 	this->state_info.states=&this->states;
 	this->state_info.gridsize=80.0f;
+	this->state_info.activetexture=0;
 }
 
 void Game::initStates()
