@@ -31,7 +31,7 @@ private:
 	void initBackground();
 	void initKeybinds();
 	void initobjects();
-
+	sf::Vector2i getPlayergrid();
 public:
 	GameState(Statedata& state_info, sf::Texture texture);
 	virtual ~GameState();

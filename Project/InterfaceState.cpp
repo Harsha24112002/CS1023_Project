@@ -2,7 +2,7 @@
 
 Interface::Interface(Statedata& state_info):State(state_info)
 {
-	tilemap = new Tilemap(stateinfo.gridsize,24,14);
+	tilemap = new Tilemap(stateinfo.gridsize,1000,500);
 	rect.setPosition(this->mousePosView);
 	rect.setSize(sf::Vector2f(stateinfo.gridsize,stateinfo.gridsize));
 	rect.setOutlineColor(sf::Color::Green);
@@ -43,13 +43,14 @@ void Interface::update(const float& dt)
 {
 	keytime+=dt;
 	updatemousepos();
-	
+	tilemap->update(sf::Vector2i((view.getCenter().x/stateinfo.gridsize),(view.getCenter().y/stateinfo.gridsize)));
 	this->updateInput(dt);
 	
 	textureselector->update(mousePosWindow);
 	rect.setPosition(sf::Vector2f((float)mousePosGrid.x*stateinfo.gridsize,(float)mousePosGrid.y*stateinfo.gridsize));
 	mousetext.setPosition(mousePosView.x+10,mousePosView.y-10);
 	mousetext.setString("collision : "+std::to_string(collision)+"\n"+"Type: "+std::to_string(type));
+	
 }
 
 void Interface::render(sf::RenderTarget* target)
@@ -85,19 +86,19 @@ void Interface::updateInput(const float& dt)
 {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		view.move(-15*dt,0);
+		view.move(-100*dt,0);
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		view.move(15*dt,0);
+		view.move(100*dt,0);
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		view.move(0,-15*dt);
+		view.move(0,-100*dt);
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		view.move(0,15*dt);
+		view.move(0,100*dt);
 	}
 	
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Left))

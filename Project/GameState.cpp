@@ -9,9 +9,10 @@ GameState::GameState(Statedata& state_info, sf::Texture texture)
 	PlayerTexture = texture;
 	this->initobjects();
 	std::string s="Tilepositions.txt";
-	tilemap = new Tilemap(stateinfo.gridsize,24,14);
+	tilemap = new Tilemap(stateinfo.gridsize,1000,500);
 	tilemap->Loadfromfile(s);
 	this->initView();
+	std::cout<<"A"<<std::endl;
 	this->initRenderTexture();
 }
 
@@ -28,8 +29,8 @@ GameState::~GameState()
 
 void GameState::resize(sf::RenderWindow* window,sf::View* view)
 {
-	view->setSize((float)window->getSize().x,(float)window->getSize().y);
-	view->setCenter(player->getposition().x + 500, player->getposition().y - 200);
+	//view->setSize((float)window->getSize().x,(float)window->getSize().y);
+	//view->setCenter(player->getposition().x + 500, player->getposition().y - 200);
 }
 
 void GameState::initView()
@@ -57,7 +58,14 @@ void GameState::initobjects()
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
 }
-
+sf::Vector2i GameState::getPlayergrid()
+{
+	sf::Vector2i gridnum;
+	gridnum.x=player->getposition().x/stateinfo.gridsize;
+	gridnum.y=player->getposition().y/stateinfo.gridsize;
+	//std::cout<<gridnum.x<<std::endl;
+	return gridnum;
+}
 void GameState::updateInput(const float& dt)
 {
 	sf::Vector2f direction={0.0f,0.0f};
@@ -103,8 +111,8 @@ void GameState::update(const float& dt)
 	this->updateInput(dt);
 	
 	this->player->update(dt);
-	tilemap->update();
-	
+	tilemap->update(sf::Vector2i((view.getCenter().x/stateinfo.gridsize),(view.getCenter().y/stateinfo.gridsize)));
+
 	/*
 	  - Updating if the GameState is over or not.
 	  - If over then endState() functions is called and new QuitState is
@@ -135,9 +143,10 @@ void GameState::render(sf::RenderTarget* target)
 		tilemap->render(&this->rendertexture);
 	}
 	
-	this->rendertexture.display();
+	
 	
 	this->player->render(&this->rendertexture);
+	this->rendertexture.display();
 	//std::cout<<rendertexture.getView().getCenter().x<<" "<<player->getposition().x<<std::endl;
 	//rendertexture.setView(rendertexture.getDefaultView());
 	rendersprite.setTexture(this->rendertexture.getTexture());
