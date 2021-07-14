@@ -47,7 +47,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 	
 	fromX=Playergridpos.x-12;
 
-	fromY=Playergridpos.y-6;
+	fromY=Playergridpos.y-7;
 	
 	if(fromX<0)
 	{
@@ -66,7 +66,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 		fromY=mapsize.y-1;
 	}
 	toX=fromX+24;
-	toY=fromY+12;
+	toY=fromY+14;
 	if(toX<0)
 	{
 		toX=0;
