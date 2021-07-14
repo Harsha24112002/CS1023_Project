@@ -27,7 +27,6 @@ class Interface : public State
 	bool collision;
 	bool helpWindow;
 	float keytime;
-	float clicktime;
 	std::vector<sf::Text> keys;
 
 	void initView();
