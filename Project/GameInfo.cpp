@@ -89,7 +89,7 @@ void GameInfo::updateButtons()
 	//New game
 	if (this->buttons["GAMESTATE"]->isPressed())
 	{
-		this->states->push(new GameState(stateinfo, textures["Player_body"]));
+		this->states->push(new GameState(stateinfo));
 	}
 
 	if (this->buttons["PLAYER"]->isPressed())

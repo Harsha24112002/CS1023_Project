@@ -226,7 +226,7 @@ void PlayerInfo::updateButtons()
 		this->buttons["Select"]->RenameButton("Selected");
 		this->buttons["Select"]->FrezzeButton();
 	}*/
-
+	
 	PlayGameButton->update(this->mousePosView);
 	button_itr->second->update(this->mousePosView);
 
@@ -237,14 +237,15 @@ void PlayerInfo::updateButtons()
 			it->second->DeRenameButton("Select");
 			it->second->DefrezzeButton();
 		}
-		this->playerbody = *(*itr).getTexture();
+		
+		stateinfo.activetexture =currentnum-1;
 		this->button_itr->second->RenameButton("Selected");
 		this->button_itr->second->FrezzeButton();
 	}
 
 	if (this->PlayGameButton->isPressed())
 	{
-		this->states->push(new GameState(stateinfo, playerbody));
+		this->states->push(new GameState(stateinfo));
 	}
 
 }

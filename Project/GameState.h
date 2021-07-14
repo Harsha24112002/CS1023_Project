@@ -25,7 +25,7 @@ private:
 	void initView();
 	float time;
 	sf::RectangleShape background;
-	sf::Texture PlayerTexture;
+	sf::Texture* PlayerTexture;
 
 	//Functions
 	void initBackground();
@@ -33,7 +33,7 @@ private:
 	void initobjects();
 	sf::Vector2i getPlayergrid();
 public:
-	GameState(Statedata& state_info, sf::Texture texture);
+	GameState(Statedata& state_info);
 	virtual ~GameState();
 
 	//Functions

@@ -11,6 +11,7 @@ class Statedata
 	Statedata(){};
 	sf::RenderWindow* window;
 	std::stack<State*>* states;
+	unsigned activetexture;
 	float gridsize;
 };
 

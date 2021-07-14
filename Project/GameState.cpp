@@ -3,16 +3,31 @@
 #include  <fstream>
 
 
-GameState::GameState(Statedata& state_info, sf::Texture texture)
+GameState::GameState(Statedata& state_info)
 	:State(state_info)
 {
-	PlayerTexture = texture;
+	
+	switch (stateinfo.activetexture)
+	{
+	case 0:
+		PlayerTexture=&textures["Player_body"];
+		break;
+	case 1: 
+		PlayerTexture=&textures["Player_body3"];
+		break;
+	case 2:
+		PlayerTexture=&textures["Player_body2"];
+		break;	
+	
+	default:
+		PlayerTexture=&textures["Player_body"];
+		break;
+	}
 	this->initobjects();
 	std::string s="Tilepositions.txt";
 	tilemap = new Tilemap(stateinfo.gridsize,1000,500);
 	tilemap->Loadfromfile(s);
 	this->initView();
-	std::cout<<"A"<<std::endl;
 	this->initRenderTexture();
 }
 
@@ -54,7 +69,7 @@ void GameState::initBackground()
 
 void GameState::initobjects()
 {
-	player =new Player(PlayerTexture);
+	player =new Player(*PlayerTexture);
 	//obstacles.push_back(new obstacle(textures["Tile"],sf::Vector2f(200.f,200.0f)));
 	
 }
@@ -142,9 +157,6 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		tilemap->render(&this->rendertexture);
 	}
-	
-	
-	
 	this->player->render(&this->rendertexture);
 	this->rendertexture.display();
 	//std::cout<<rendertexture.getView().getCenter().x<<" "<<player->getposition().x<<std::endl;
