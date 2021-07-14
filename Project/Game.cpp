@@ -14,32 +14,32 @@ void Game::initVariables()
 
 void Game::initWindow()
 {
-	
+
 	/*Creates a SFML window using options from window.ini file. */
 
 	this->videoModes = sf::VideoMode::getFullscreenModes();
 
 	std::string title = "None";
 	sf::VideoMode window_bounds = sf::VideoMode::getDesktopMode();
-	
+
 	unsigned framerate_limit = 60;
 	bool vertical_sync_enabled = false;
-	
 
-	
+
+
 	this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Fullscreen, windowSettings);
-	
-		
+
+
 
 	this->window->setFramerateLimit(framerate_limit);
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 void Game::initStateinfo()
 {
-	this->state_info.window=this->window;
-	this->state_info.states=&this->states;
-	this->state_info.gridsize=80.0f;
-	this->state_info.activetexture=0;
+	this->state_info.window = this->window;
+	this->state_info.states = &this->states;
+	this->state_info.gridsize = 80.0f;
+	this->state_info.activetexture = 0;
 }
 
 void Game::initStates()
@@ -53,7 +53,7 @@ void Game::initStates()
 Game::Game()
 {
 	this->initWindow();
-	this->initStateinfo();	
+	this->initStateinfo();
 	this->initStates();
 
 }
@@ -106,7 +106,7 @@ void Game::update()
 			this->states.pop();
 		}
 
-		 // Checking if the game is ending in the QuitState or not.
+		// Checking if the game is ending in the QuitState or not.
 		else if (this->states.top()->getTotalQuit())
 		{
 			while (!this->states.empty())
@@ -135,13 +135,13 @@ void Game::update()
 		this->window->close();
 	}
 
-	
+
 
 }
 
 void Game::render()
 {
-	this->window->clear(sf::Color(150,150,150,150));
+	this->window->clear(sf::Color(150, 150, 150, 150));
 	//render items
 	if (!this->states.empty())
 		this->states.top()->render();

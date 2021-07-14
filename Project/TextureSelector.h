@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 class TextureSelector
 {
-	private:
+private:
 	bool active;
 	float gridsize;
 	bool hidden;
@@ -15,8 +15,8 @@ class TextureSelector
 	sf::RectangleShape bounds;
 	sf::Sprite sheet;
 
-	public:
-	TextureSelector(unsigned x,unsigned y,unsigned width,unsigned height,float gridsize,sf::Texture* Texture);
+public:
+	TextureSelector(unsigned x, unsigned y, unsigned width, unsigned height, float gridsize, sf::Texture* Texture);
 	virtual ~TextureSelector();
 	bool getactive();
 	sf::IntRect getTexturerect();

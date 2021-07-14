@@ -7,8 +7,8 @@
 class State;
 class Statedata
 {
-	public:
-	Statedata(){};
+public:
+	Statedata() {};
 	sf::RenderWindow* window;
 	std::stack<State*>* states;
 	unsigned activetexture;
@@ -37,16 +37,16 @@ protected:
 	sf::Vector2f mousePosView;
 	sf::Vector2u mousePosGrid;
 	//Resources 
-	std::map<std::string,sf::Texture> textures;
+	std::map<std::string, sf::Texture> textures;
 	sf::Texture playerbody;
 
 	//Functions 
-	
+
 public:
 	State(Statedata& stateinfo);
 	virtual ~State();
 
-	bool getQuit() ;
+	bool getQuit();
 	const bool& getTotalQuit() const;
 	const bool& getPlayAgain() const;
 
