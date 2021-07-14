@@ -19,6 +19,7 @@ void Player::initvariables()
     this->switchtime=0.25f;
     
     this->sprite.setTexture(t);
+    sprite.setScale(1.25,1.25);
     this->a = new animation(&t, this->nimages, this->switchtime);
     this->sprite.setTextureRect(a->r);
     this->sprite.setPosition(sf::Vector2f(460,700));
@@ -98,14 +99,14 @@ void Player::move(float dt,sf::Vector2f direction)
     if(velocity.x>0.0f)
     {
         row=1;
-        sprite.setScale(1,1);
+        sprite.setScale(1.25,1.25);
         sprite.setOrigin(0,0);
        
     }
     if(velocity.x<0.0f)
     {
         row=1;
-       sprite.setScale(-1,1);
+       sprite.setScale(-1.25,1.25);
         sprite.setOrigin(-188,0);
     }
     
@@ -114,7 +115,7 @@ void Player::move(float dt,sf::Vector2f direction)
         if(direction.y<0)
         {
             canjump=false;
-            velocity.y=-sqrt(2*1000*150.0f);
+            velocity.y=-sqrt(2*1000*200.0f);
         }
     }
     a->update(row, (int)direction.x, dt);
@@ -131,7 +132,7 @@ void Player::move(float dt,sf::Vector2f direction)
 }
 void Player::createBoundrect()
 {
-    this->rect=new Boundrect(sprite,sf::Vector2f(-23,-23),42,63);
+    this->rect=new Boundrect(sprite,sf::Vector2f(-23,-23),45,70);
 }
 void Player::oncollision(sf::Vector2f& fromwhere)
 {
