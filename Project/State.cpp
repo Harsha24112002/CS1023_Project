@@ -1,12 +1,12 @@
 #include "State.h"
 
-State::State(Statedata& state_info):stateinfo(state_info)
+State::State(Statedata& state_info) :stateinfo(state_info)
 {
 	this->inittextures();
 	this->window = state_info.window;
 	this->states = state_info.states;
 	this->quit = false;
-	this->totalquit=false;	
+	this->totalquit = false;
 	this->playagain = false;
 }
 
@@ -27,9 +27,11 @@ void State::inittextures()
 	textures["Back_Image"].loadFromFile("Resources/Images/back.png");
 	textures["Next_Image1"].loadFromFile("Resources/Images/next1.png");
 	textures["Next_Image2"].loadFromFile("Resources/Images/next2.png");
+	textures["Help_Image"].loadFromFile("Resources/Images/help.png");
+	textures["Close_Image"].loadFromFile("Resources/Images/close.png");
 }
 
-bool State::getQuit() 
+bool State::getQuit()
 {
 	return this->quit;
 }
@@ -66,7 +68,6 @@ void State::updateMousePositions(sf::View view)
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 	window->setView(view);
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
-	this->mousePosGrid = sf::Vector2u(this->mousePosView.x/this->stateinfo.gridsize,this->mousePosView.y/this->stateinfo.gridsize);	
+	this->mousePosGrid = sf::Vector2u(this->mousePosView.x / this->stateinfo.gridsize, this->mousePosView.y / this->stateinfo.gridsize);
 	window->setView(window->getDefaultView());
 }
-

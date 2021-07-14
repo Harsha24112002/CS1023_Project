@@ -16,20 +16,27 @@ class Interface : public State
 	std::map<std::string,Button*> buttons;	
 	Tilemap* tilemap;
 	sf::RectangleShape rect;
+	sf::RectangleShape close;
 	sf::IntRect texrect;
+	sf::RectangleShape help;
 	TextureSelector* textureselector;
 	sf::View view;
 	sf::Font f;
 	sf::Text mousetext;
 	int type;
 	bool collision;
+	bool helpWindow;
 	float keytime;
 	float clicktime;
+	std::vector<sf::Text> keys;
+
 	void initView();
+	void initHelpKeys();
 	public:
 	
 	Interface(Statedata& state_info);
-	virtual ~Interface();
+	~Interface();
+
 	void updatemousepos();
 	void update(const float& dt);
 	void updateInput(const float& dt);
