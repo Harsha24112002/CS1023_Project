@@ -3,7 +3,7 @@
 
 
 #include "Player.h"
-
+#include "obstacle.h"
 class State;
 class Statedata
 {
