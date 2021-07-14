@@ -19,11 +19,19 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
             {
             rect.move(sf::Vector2f((1.0f-howmuchmovable)*(-intersectx),0));
             body2.move(sf::Vector2f((howmuchmovable)*(intersectx),0));
+            if(intersectx<=0)
+            {
+                fromwhere.x=1.0f;
+            }
             }
             if(deltax<0.0f)
             {
             rect.move(sf::Vector2f((1.0f-howmuchmovable)*intersectx,0));
-            body2.move(sf::Vector2f((howmuchmovable)*(-intersectx),0));     
+            body2.move(sf::Vector2f((howmuchmovable)*(-intersectx),0));  
+            if(intersectx<=0)
+            {
+                fromwhere.x=-1.0f;
+            }   
             }
         }
         if(abs(intersectx)>abs(intersecty))
@@ -34,6 +42,10 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
           //  std::cout<<(1-howmuchmovable)*(-intersecty)<<" : "<<(howmuchmovable)*intersecty<<std::endl;
             rect.move(sf::Vector2f(0,((1.0f-howmuchmovable)*(-intersecty))));
            body2.move(sf::Vector2f(0,(howmuchmovable)*((intersecty))));
+           if(intersecty<=0)
+            {
+                fromwhere.y=1.0f;
+            }
             
             }
             
@@ -42,12 +54,16 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
        
             rect.move(sf::Vector2f(0,((1.0f-howmuchmovable)*intersecty)));
             body2.move(sf::Vector2f(0,(howmuchmovable)*((-intersecty))));  
+            if(intersecty<=0)
+            {
+                fromwhere.y=-1.0f;
+            }
          
             }
         }
     if(intersectx<=0 && intersecty<=0)
     {
-    if(deltax<0)
+   /* if(deltax<0)
     {
         fromwhere.x=-1.0f;
     }
@@ -62,7 +78,7 @@ bool collider::checkcollision(collider& body2,sf::Vector2f& fromwhere,float howm
     else if(deltay>0)
     {
         fromwhere.y=1.0f;
-    }
+    }*/
     return true;
     }
     
