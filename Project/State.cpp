@@ -20,6 +20,7 @@ void State::inittextures()
 	textures["Player_body"].loadFromFile("Resources/Images/kit_from_firefox.png");
 	textures["Player_body2"].loadFromFile("Resources/Images/tux_from_linux.png");
 	textures["Player_body3"].loadFromFile("Resources/Images/droid_from_android.png");
+	textures["Player_body4"].loadFromFile("Resources/Images/sara_from_opengameart.png");
 	textures["Tile"].loadFromFile("Resources/Images/Basic_Ground_Top_Pixel.png");
 	textures["Underground"].loadFromFile("Resources/Images/Basic_Ground_Filler_Pixel.png");
 	textures["Quit_Background"].loadFromFile("Resources/Images/QuitState_Image.jpeg");

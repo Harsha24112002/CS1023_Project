@@ -46,7 +46,8 @@ void PlayerInfo::initPlayers()
 	this->players.insert(std::pair<int, sf::RectangleShape>(2, this->rect));
 	this->rect.setTexture(&(State::textures["Player_body3"]));
 	this->players.insert(std::pair<int, sf::RectangleShape>(3, this->rect));
-
+	this->rect.setTexture(&(State::textures["Player_body4"]));
+	this->players.insert(std::pair<int, sf::RectangleShape>(4, this->rect));
 	this->buttons.insert(std::pair<std::string, Button*>("Player_body", new Button(910, 640, 100, 50,
 		&this->font, "Select",
 		sf::Color::Black, sf::Color::Red, sf::Color(20, 20, 20, 200))
@@ -61,7 +62,10 @@ void PlayerInfo::initPlayers()
 		&this->font, "Select",
 		sf::Color::Black, sf::Color::Red, sf::Color(20, 20, 20, 200))
 		));
-
+	this->buttons.insert(std::pair<std::string, Button*>("Player_body4", new Button(910, 640, 100, 50,
+		&this->font, "Select",
+		sf::Color::Black, sf::Color::Red, sf::Color(20, 20, 20, 200))
+		));
 
 	this->itr = players.find(stateinfo.activetexturenum);
 	this->button_itr = buttons.find(stateinfo.activetexture);
