@@ -18,10 +18,10 @@ private:
 	sf::RectangleShape next1;
 	sf::RectangleShape next2;
 	sf::RectangleShape rect;
-	std::vector<sf::RectangleShape> players;
+	std::map<int, sf::RectangleShape> players;
 	size_t currentnum;
 	Button* PlayGameButton;
-	std::vector<sf::RectangleShape>::iterator itr;
+	std::map<int, sf::RectangleShape>::iterator itr;
 	std::map<std::string, Button*>::iterator button_itr;
 	float time;
 	//Functions

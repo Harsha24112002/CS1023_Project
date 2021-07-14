@@ -8,7 +8,7 @@ GameState::GameState(Statedata& state_info)
 	:State(state_info)
 {
 
-	switch (stateinfo.activetexture)
+	/*switch (stateinfo.activetexture)
 	{
 	case 0:
 		PlayerTexture = &textures["Player_body"];
@@ -23,7 +23,9 @@ GameState::GameState(Statedata& state_info)
 	default:
 		PlayerTexture = &textures["Player_body"];
 		break;
-	}
+	}*/
+
+	PlayerTexture = &textures[stateinfo.activetexture];
 	this->initobjects();
 	std::string s = "Tilepositions.txt";
 	tilemap = new Tilemap(stateinfo.gridsize, 1000, 500);

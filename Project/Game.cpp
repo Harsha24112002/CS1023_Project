@@ -39,7 +39,8 @@ void Game::initStateinfo()
 	this->state_info.window = this->window;
 	this->state_info.states = &this->states;
 	this->state_info.gridsize = 80.0f;
-	this->state_info.activetexture = 0;
+	this->state_info.activetexture = "Player_body";
+	this->state_info.activetexturenum = 1;
 }
 
 void Game::initStates()

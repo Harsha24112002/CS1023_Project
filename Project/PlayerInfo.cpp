@@ -41,11 +41,11 @@ void PlayerInfo::initButtons()
 void PlayerInfo::initPlayers()
 {
 	this->rect.setTexture(&(State::textures["Player_body"]));
-	this->players.push_back(this->rect);
-	this->rect.setTexture(&(State::textures["Player_body3"]));
-	this->players.push_back(this->rect);
+	this->players.insert(std::pair<int, sf::RectangleShape>(1, this->rect));
 	this->rect.setTexture(&(State::textures["Player_body2"]));
-	this->players.push_back(this->rect);
+	this->players.insert(std::pair<int, sf::RectangleShape>(2, this->rect));
+	this->rect.setTexture(&(State::textures["Player_body3"]));
+	this->players.insert(std::pair<int, sf::RectangleShape>(3, this->rect));
 
 	this->buttons.insert(std::pair<std::string, Button*>("Player_body", new Button(910, 640, 100, 50,
 		&this->font, "Select",
@@ -63,22 +63,30 @@ void PlayerInfo::initPlayers()
 		));
 
 
-	this->itr = players.begin();
-	this->button_itr = buttons.begin();
+	this->itr = players.find(stateinfo.activetexturenum);
+	this->button_itr = buttons.find(stateinfo.activetexture);
 
-	sf::Texture tex = *(*itr).getTexture();
+	sf::Texture tex = *(*itr).second.getTexture();
 	sf::Vector2u texturesize = tex.getSize();
 	texturesize.x /= 3;
 	texturesize.y /= 9;
-	(*itr).setSize(sf::Vector2f(56.f, 80.f));
-	(*itr).setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
-	(*itr).setPosition(sf::Vector2f(904.f, 460.f));
-	(*itr).setScale(2, 2);
+	(*itr).second.setSize(sf::Vector2f(56.f, 80.f));
+	(*itr).second.setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
+	(*itr).second.setPosition(sf::Vector2f(904.f, 460.f));
+	(*itr).second.setScale(2, 2);
 
-	button_itr->second->RenameButton("Selected");
-	button_itr->second->FrezzeButton();
+	/*button_itr->second->RenameButton("Selected");
+	button_itr->second->FrezzeButton();*/
 
-	currentnum = 1;
+	currentnum = stateinfo.activetexturenum;
+	for (auto it = buttons.begin(); it != buttons.end(); ++it)
+	{
+		if (stateinfo.activetexture == it->first)
+		{
+			it->second->RenameButton("Selected");
+			it->second->FrezzeButton();
+		}
+	}
 }
 
 PlayerInfo::PlayerInfo(Statedata& state_info)
@@ -116,14 +124,14 @@ void PlayerInfo::updateInput(const float& dt)
 			{
 				itr++;
 				button_itr++;
-				sf::Texture tex = *(*itr).getTexture();
+				sf::Texture tex = *(*itr).second.getTexture();
 				sf::Vector2u texturesize = tex.getSize();
 				texturesize.x /= 3;
 				texturesize.y /= 9;
-				(*itr).setSize(sf::Vector2f(56.f, 80.f));
-				(*itr).setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
-				(*itr).setPosition(sf::Vector2f(904.f, 460.f));
-				(*itr).setScale(2, 2);
+				(*itr).second.setSize(sf::Vector2f(56.f, 80.f));
+				(*itr).second.setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
+				(*itr).second.setPosition(sf::Vector2f(904.f, 460.f));
+				(*itr).second.setScale(2, 2);
 				currentnum++;
 
 			}
@@ -141,14 +149,14 @@ void PlayerInfo::updateInput(const float& dt)
 
 					itr++;
 					button_itr++;
-					sf::Texture tex = *(*itr).getTexture();
+					sf::Texture tex = *(*itr).second.getTexture();
 					sf::Vector2u texturesize = tex.getSize();
 					texturesize.x /= 3;
 					texturesize.y /= 9;
-					(*itr).setSize(sf::Vector2f(56.f, 80.f));
-					(*itr).setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
-					(*itr).setPosition(sf::Vector2f(904.f, 460.f));
-					(*itr).setScale(2, 2);
+					(*itr).second.setSize(sf::Vector2f(56.f, 80.f));
+					(*itr).second.setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
+					(*itr).second.setPosition(sf::Vector2f(904.f, 460.f));
+					(*itr).second.setScale(2, 2);
 					currentnum++;
 
 				}
@@ -166,14 +174,14 @@ void PlayerInfo::updateInput(const float& dt)
 			{
 				itr--;
 				button_itr--;
-				sf::Texture tex = *(*itr).getTexture();
+				sf::Texture tex = *(*itr).second.getTexture();
 				sf::Vector2u texturesize = tex.getSize();
 				texturesize.x /= 3;
 				texturesize.y /= 9;
-				(*itr).setSize(sf::Vector2f(56.f, 80.f));
-				(*itr).setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
-				(*itr).setPosition(sf::Vector2f(904.f, 460.f));
-				(*itr).setScale(2, 2);
+				(*itr).second.setSize(sf::Vector2f(56.f, 80.f));
+				(*itr).second.setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
+				(*itr).second.setPosition(sf::Vector2f(904.f, 460.f));
+				(*itr).second.setScale(2, 2);
 				currentnum--;
 			}
 		}
@@ -190,14 +198,14 @@ void PlayerInfo::updateInput(const float& dt)
 
 					itr--;
 					button_itr--;
-					sf::Texture tex = *(*itr).getTexture();
+					sf::Texture tex = *(*itr).second.getTexture();
 					sf::Vector2u texturesize = tex.getSize();
 					texturesize.x /= 3;
 					texturesize.y /= 9;
-					(*itr).setSize(sf::Vector2f(56.f, 80.f));
-					(*itr).setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
-					(*itr).setPosition(sf::Vector2f(904.f, 460.f));
-					(*itr).setScale(2, 2);
+					(*itr).second.setSize(sf::Vector2f(56.f, 80.f));
+					(*itr).second.setTextureRect(sf::IntRect(texturesize.x * 1, texturesize.y * 0, texturesize.x, texturesize.y));
+					(*itr).second.setPosition(sf::Vector2f(904.f, 460.f));
+					(*itr).second.setScale(2, 2);
 					currentnum--;
 				}
 			}
@@ -238,7 +246,8 @@ void PlayerInfo::updateButtons()
 			it->second->DefrezzeButton();
 		}
 
-		stateinfo.activetexture = currentnum - 1;
+		stateinfo.activetexture = button_itr->first;
+		stateinfo.activetexturenum = itr->first;
 		this->button_itr->second->RenameButton("Selected");
 		this->button_itr->second->FrezzeButton();
 	}
@@ -281,7 +290,7 @@ void PlayerInfo::render(sf::RenderTarget* target)
 
 	//target->draw(this->background);
 
-	target->draw(*itr);
+	target->draw(itr->second);
 	target->draw(this->next1);
 	target->draw(this->next2);
 	this->renderButtons(target);

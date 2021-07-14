@@ -52,6 +52,7 @@ const bool& State::getPlayAgain() const
 	return this->playagain;
 }
 
+
 void State::QuitGame()
 {
 	this->totalquit = true;

@@ -3,7 +3,7 @@
 
 
 #include "Player.h"
-#include "obstacle.h"
+
 class State;
 class Statedata
 {
@@ -11,7 +11,8 @@ public:
 	Statedata() {};
 	sf::RenderWindow* window;
 	std::stack<State*>* states;
-	unsigned activetexture;
+	std::string activetexture;
+	unsigned activetexturenum;
 	float gridsize;
 };
 
@@ -50,8 +51,10 @@ public:
 	const bool& getTotalQuit() const;
 	const bool& getPlayAgain() const;
 
+
 	void endState();
 	void QuitGame();
+
 	virtual void updateMousePositions(sf::View view);
 	void PlayAgain();
 	void inittextures();
