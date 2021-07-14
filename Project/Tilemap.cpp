@@ -155,8 +155,11 @@ void Tilemap::checkcollison(Player* player, sf::Vector2f& direction)
 			{
 				if(map[x][y][z]!=nullptr)
 				{
+					if(map[x][y][z]->getcollision())
+					{
 					if(map[x][y][z]->getcollider().checkcollision(collider,direction,1.0f))
 					player->oncollision(direction);
+					}
 				}
 			}
 		}
