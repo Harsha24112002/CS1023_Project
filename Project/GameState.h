@@ -6,7 +6,7 @@
 #include "collider.h"
 #include "Tilemap.h"
 #include "QuitState.h"
-
+#include "PlayerAttributes.h"
 class GameState :
 	public State
 {
@@ -14,7 +14,7 @@ private:
 	Player* player;
 	sf::View view;
 	Tilemap* tilemap;
-
+	Playerattributes* attributes;
 	sf::RenderTexture rendertexture;
 	sf::Sprite rendersprite;
 	bool is_game_over;

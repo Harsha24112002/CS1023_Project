@@ -24,9 +24,10 @@ GameState::GameState(Statedata& state_info)
 		PlayerTexture = &textures["Player_body"];
 		break;
 	}*/
-
+	time = 0;
 	PlayerTexture = &textures[stateinfo.activetexture];
 	this->initobjects();
+	attributes = new Playerattributes(player);
 	std::string s = "Tilepositions.txt";
 	tilemap = new Tilemap(stateinfo.gridsize, 1000, 500);
 	tilemap->Loadfromfile(s);
@@ -38,6 +39,7 @@ GameState::~GameState()
 {
 	delete player;
 	delete tilemap;
+	delete attributes;
 	/*
 	 -To restore the default view of the screen which was disturbed
 	  by the sf::View when player is moving
@@ -129,6 +131,10 @@ void GameState::update(const float& dt)
 	this->updateInput(dt);
 
 	this->player->update(dt);
+	if(attributes)
+	{
+		attributes->update();
+	}
 	if (tilemap)
 		tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
 
@@ -155,18 +161,23 @@ void GameState::render(sf::RenderTarget* target)
 		target = this->window;
 	}
 	//	window->setView(view);
-	rendertexture.setView(view);
+	
 	this->rendertexture.clear(sf::Color(150, 150, 150, 150));
+	
+	rendertexture.setView(view);
+	this->player->render(&this->rendertexture);
 	if (tilemap)
 	{
 		tilemap->render(&this->rendertexture);
 	}
-	this->player->render(&this->rendertexture);
+	
 	this->rendertexture.display();
 	//std::cout<<rendertexture.getView().getCenter().x<<" "<<player->getposition().x<<std::endl;
 	//rendertexture.setView(rendertexture.getDefaultView());
 	rendersprite.setTexture(this->rendertexture.getTexture());
+	
 	target->draw(this->rendersprite);
+	attributes->render(target);
 
 
 }
