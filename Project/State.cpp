@@ -6,6 +6,7 @@ State::State(Statedata& state_info) :stateinfo(state_info)
 	this->window = state_info.window;
 	this->states = state_info.states;
 	this->quit = false;
+	this->paused = false;
 	this->totalquit = false;
 	this->playagain = false;
 }
@@ -53,12 +54,20 @@ const bool& State::getPlayAgain() const
 	return this->playagain;
 }
 
+void State::pauseState()
+{
+	this->paused = true;
+}
+
+void State::unpauseState()
+{
+	this->paused = false;
+}
 
 void State::QuitGame()
 {
 	this->totalquit = true;
 }
-
 
 void State::PlayAgain()
 {
