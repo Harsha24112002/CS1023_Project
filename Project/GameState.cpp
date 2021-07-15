@@ -100,6 +100,10 @@ void GameState::initPauseMenu()
 	this->pmenu = new PauseMenu(&this->view, this->font);
 
 	this->pmenu->addButton("CONTINUE", 200.f, "RESUME");
+	
+	this->pmenu->addButton("REPLAY", 300.f, "RESTART");
+
+	this->pmenu->addButton("MAIN_MENU_STATE", 400.f, "MAIN MENU");
 
 	this->pmenu->addButton("EXIT_STATE", 600.f, "QUIT");
 }
@@ -121,6 +125,19 @@ void GameState::updateButtons()
 {
 	if (this->pmenu->isButtonPressed("CONTINUE"))
 		this->unpauseState();
+	
+	if (this->pmenu->isButtonPressed("REPLAY"))
+	{
+		this->endState();
+		this->states->push(new GameState(stateinfo));
+	}
+
+	if (this->pmenu->isButtonPressed("MAIN_MENU_STATE"))
+	{
+		this->endState();
+		this->states->pop();
+		this->states->pop();
+	}
 
 	if (this->pmenu->isButtonPressed("EXIT_STATE"))
 		this->endState();
