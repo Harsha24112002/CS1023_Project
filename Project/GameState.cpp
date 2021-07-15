@@ -1,8 +1,6 @@
-
 #include "GameState.h"
 #include <iostream>
 #include  <fstream>
-
 
 GameState::GameState(Statedata& state_info)
 	:State(state_info)
@@ -19,7 +17,6 @@ GameState::GameState(Statedata& state_info)
 	case 2:
 		PlayerTexture = &textures["Player_body2"];
 		break;
-
 	default:
 		PlayerTexture = &textures["Player_body"];
 		break;
@@ -32,11 +29,14 @@ GameState::GameState(Statedata& state_info)
 	tilemap->Loadfromfile(s);
 	this->initView();
 	this->initRenderTexture();
+	this->initFonts();
+	this->initPauseMenu();
 }
 
 GameState::~GameState()
 {
 	delete player;
+	delete pmenu;
 	delete tilemap;
 	/*
 	 -To restore the default view of the screen which was disturbed
@@ -84,6 +84,45 @@ sf::Vector2i GameState::getPlayergrid()
 	//std::cout<<gridnum.x<<std::endl;
 	return gridnum;
 }
+
+void GameState::initFonts()
+{
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.TTF"))
+	{
+		throw("ERROR::MAINMENUSTATE::COULT NOT LOAD FONT");
+	}
+}
+
+void GameState::initPauseMenu()
+{
+	this->pmenu = new PauseMenu(&this->view, this->font);
+
+	this->pmenu->addButton("CONTINUE", 200.f, "RESUME");
+
+	this->pmenu->addButton("EXIT_STATE", 600.f, "QUIT");
+}
+
+void GameState::updatePausedInput(const float& dt)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		if (!this->paused)
+			this->pauseState();
+		else
+			this->unpauseState();
+	}
+}
+
+void GameState::updateButtons()
+{
+	if (this->pmenu->isButtonPressed("CONTINUE"))
+		this->unpauseState();
+
+	if (this->pmenu->isButtonPressed("EXIT_STATE"))
+		this->endState();
+
+}
+
 void GameState::updateInput(const float& dt)
 {
 	sf::Vector2f direction = { 0.0f,0.0f };
@@ -115,36 +154,46 @@ void GameState::updateInput(const float& dt)
 
 void GameState::update(const float& dt)
 {
+	this->updateMousePositions();
+	this->updatePausedInput(dt);
 
-	view.setCenter(player->getposition().x + 400, player->getposition().y);
-	unsigned count = 0;
-	collider c = player->getcollider();
-	sf::Vector2f directionofcollison = { 0.0f,0.0f };
-
-	this->updateMousePositions(view);
-
-	tilemap->checkcollison(player, directionofcollison);
-
-	//std::cout<<"("<<player->getposition().x<<":"<<player->getposition().y<<")"<<":"<<"("<<obstacles[0]->getposition().x<<":"<<obstacles[0]->getposition().y<<")"<<std::endl;
-	this->updateInput(dt);
-
-	this->player->update(dt);
-	if (tilemap)
-		tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
-
-	/*
-	  - Updating if the GameState is over or not.
-	  - If over then endState() functions is called and new QuitState is
-		pushed to the States without ending the current GameState.
-	  - So when we quit the QuitState then we come back to the GameState
-		and again QuitState is called so to avoid that check variable checks
-		if the GameState is already there or not.
-	*/
-	if (player->IsGameOver())
+	if (!this->paused)
 	{
-		this->endState();
-		this->window->setView(window->getDefaultView());
-		this->states->push(new QuitState(this->stateinfo));
+		view.setCenter(player->getposition().x + 400, player->getposition().y);
+		unsigned count = 0;
+		collider c = player->getcollider();
+		sf::Vector2f directionofcollison = { 0.0f,0.0f };
+
+		this->updateMousePositions(view);
+
+		tilemap->checkcollison(player, directionofcollison);
+
+		//std::cout<<"("<<player->getposition().x<<":"<<player->getposition().y<<")"<<":"<<"("<<obstacles[0]->getposition().x<<":"<<obstacles[0]->getposition().y<<")"<<std::endl;
+		this->updateInput(dt);
+
+		this->player->update(dt);
+		if (tilemap)
+			tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
+
+		/*
+		  - Updating if the GameState is over or not.
+		  - If over then endState() functions is called and new QuitState is
+			pushed to the States without ending the current GameState.
+		  - So when we quit the QuitState then we come back to the GameState
+			and again QuitState is called so to avoid that check variable checks
+			if the GameState is already there or not.
+		*/
+		if (player->IsGameOver())
+		{
+			this->endState();
+			this->window->setView(window->getDefaultView());
+			this->states->push(new QuitState(this->stateinfo));
+		}
+	}
+	else
+	{
+		this->pmenu->update(this->mousePosView);
+		this->updateButtons();
 	}
 }
 
@@ -168,5 +217,8 @@ void GameState::render(sf::RenderTarget* target)
 	rendersprite.setTexture(this->rendertexture.getTexture());
 	target->draw(this->rendersprite);
 
-
+	if (this->paused)
+	{
+		this->pmenu->render(*target);
+	}
 }
