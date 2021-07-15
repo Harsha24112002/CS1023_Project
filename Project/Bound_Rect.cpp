@@ -32,5 +32,5 @@ void Boundrect::update()
 }
 void Boundrect::render(sf::RenderTarget* target)
 {
-	//	target->draw(this->bound);
+		target->draw(this->bound);
 }
