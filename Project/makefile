@@ -5,7 +5,8 @@ CC =g++
 LIBFLAGS=-lsfml-window -lsfml-system -lsfml-graphics
 	SRCS = State.cpp Main.cpp GameState.cpp MainMenuState.cpp Button.cpp Game.cpp\
 	 animation.cpp Player.cpp Bound_Rect.cpp InterfaceState.cpp Tilemap.cpp Tile.cpp\
-	  TextureSelector.cpp QuitState.cpp GameInfo.cpp PlayerInfo.cpp collider.cpp
+	  TextureSelector.cpp QuitState.cpp GameInfo.cpp PlayerInfo.cpp collider.cpp \
+	  PlayerAttributes.cpp
 OBJS =$(addsuffix .o,$(basename $(SRCS)))
 EXE = Game
 .PHONY = clean all

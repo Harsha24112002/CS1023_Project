@@ -16,6 +16,9 @@ Player::~Player()
 
 void Player::initvariables()
 {
+    this->coins=0;
+    this->health=100;
+
     this->nimages.x = 3;
     this->nimages.y = 9;
     this->switchtime = 0.25f;
@@ -24,7 +27,7 @@ void Player::initvariables()
     sprite.setScale(1.25, 1.25);
     this->a = new animation(&t, this->nimages, this->switchtime);
     this->sprite.setTextureRect(a->r);
-    this->sprite.setPosition(sf::Vector2f(460, 700));
+    this->sprite.setPosition(sf::Vector2f(460, 250));
 
     this->jumpheight = 100.0f;
 
@@ -38,6 +41,21 @@ void Player::initvariables()
     this->maxspeed = 300.0f;
     this->createBoundrect();
     this->deceleration = -500;
+}
+
+void Player::equipcoin()
+{
+    coins++;
+}
+
+void Player::onspikes()
+{
+    std::cout<<"Health : "<<health<<std::endl;
+    health -=0.5;
+}
+float Player::gethealth()
+{
+    return health;
 }
 void Player::move(float dt, sf::Vector2f direction)
 {
@@ -155,6 +173,10 @@ bool Player::IsGameOver()
         - Checks if the player is fallen or not.
         - If player has fallen then return true to the IsGameOver.
     */
+    if(health<0)
+    {
+        return true;
+    } 
     if (this->sprite.getPosition().y < 1000)
         return false;
     else

@@ -39,7 +39,8 @@ class Player
     sf::Vector2f acceleration;
     float maxspeed;
     float deceleration;
-
+    unsigned coins;
+    float health;
     void initvariables();
 
    protected:
@@ -57,6 +58,15 @@ class Player
     void update(const float& dt);
     void move(float dt,sf::Vector2f velocity);
 	void render(sf::RenderTarget* target);
+
+    /**
+     * Attribute functions
+     * */
+    void equipcoin();
+    void onspikes();
+    float gethealth();
+
+    
     collider getcollider(){return collider(*rect);}
     void oncollision(sf::Vector2f& fromwhere);
     bool IsGameOver();
