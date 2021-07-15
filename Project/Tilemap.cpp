@@ -42,7 +42,7 @@ Tilemap::~Tilemap()
 void Tilemap::update(sf::Vector2i Playergridpos)
 {
 
-	fromX = Playergridpos.x - 12;
+	fromX = Playergridpos.x - 10;
 
 	fromY = Playergridpos.y - 7;
 
@@ -62,7 +62,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 	{
 		fromY = mapsize.y - 1;
 	}
-	toX = fromX + 24;
+	toX = fromX + 20 ;
 	toY = fromY + 14;
 	if (toX < 0)
 	{
@@ -151,16 +151,35 @@ void Tilemap::checkcollison(Player* player, sf::Vector2f& direction)
 	{
 		for(unsigned y=fromY;y<toY;y++)
 		{
-			for(unsigned z=0;z<map[x][y].size();z++)
+			auto it=map[x][y].begin();
+			for(unsigned z=0;z<map[x][y].size() && it!=map[x][y].end();z++,it++)
 			{
 				if(map[x][y][z]!=nullptr)
 				{
-					if(map[x][y][z]->getcollision())
+					if(map[x][y][z]->gettype()==0 && map[x][y][z]->getcollision())
 					{
-					if(map[x][y][z]->getcollider().checkcollision(collider,direction,1.0f))
-					player->oncollision(direction);
+						if(map[x][y][z]->getcollider().stopcollision(collider,direction,1.0f))
+						{
+							player->oncollision(direction);
+						}
+					}
+					else if(map[x][y][z]->gettype()==2)
+					{
+						if(map[x][y][z]->getcollider().checkcollision(collider))
+						player->onspikes();
+					}
+					else if(map[x][y][z]->gettype()==1)
+					{
+						if(map[x][y][z]->getcollider().checkcollision(collider))
+						{
+							delete map[x][y][z];
+							map[x][y][z]=nullptr;
+							map[x][y].erase(it);
+							player->equipcoin();
+						}
 					}
 				}
+
 			}
 		}
 	}

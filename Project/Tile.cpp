@@ -7,12 +7,20 @@ Tile::Tile(float x, float y, float gridsize, sf::Texture& texture, sf::IntRect& 
 	tilesprite.setColor(sf::Color::White);
 	tilesprite.setTexture(texture);
 	tilesprite.setTextureRect(texturerect);
-
+	
 	this->gridsize = gridsize;
 	this->texturerect = texturerect;
 	this->type = type;
 	this->collision = collision;
 
+	if(type==1)
+	{
+		tilesprite.setScale(0.75,0.75);
+	}
+	if(type==2)
+	{
+		tilesprite.setColor(sf::Color(255,255,255,128));
+	}
 	boundrect = new Boundrect(tilesprite, sf::Vector2f(0, 0), gridsize, gridsize);
 }
 Tile::Tile()
