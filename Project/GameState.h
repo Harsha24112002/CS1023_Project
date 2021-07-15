@@ -7,10 +7,15 @@
 #include "Tilemap.h"
 #include "QuitState.h"
 #include "PlayerAttributes.h"
+#include "PauseMenu.h"
+
 class GameState :
 	public State
 {
 private:
+	sf::Font font;
+	PauseMenu* pmenu;
+
 	Player* player;
 	sf::View view;
 	Tilemap* tilemap;
@@ -27,6 +32,9 @@ private:
 	sf::RectangleShape background;
 	sf::Texture* PlayerTexture;
 
+	void initFonts();
+	void initPauseMenu();
+
 	//Functions
 	void initBackground();
 	void initKeybinds();
@@ -38,7 +46,10 @@ public:
 
 	//Functions
 
+	void updatePausedInput(const float& dt);
 	void updateInput(const float& dt);
+	void updateButtons();
+
 	void update(const float& dt);
 	void render(sf::RenderTarget* target = NULL);
 	void resize(sf::RenderWindow* window, sf::View* view);
