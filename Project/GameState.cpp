@@ -24,7 +24,7 @@ GameState::GameState(Statedata& state_info)
 	time = 0;
 	PlayerTexture = &textures[stateinfo.activetexture];
 	this->initobjects();
-	attributes = new Playerattributes(player);
+	attributes = new PlayerAttributes(player);
 	std::string s = "Tilepositions.txt";
 	tilemap = new Tilemap(stateinfo.gridsize, 1000, 500);
 	tilemap->Loadfromfile(s);
@@ -89,7 +89,7 @@ sf::Vector2i GameState::getPlayergrid()
 
 void GameState::initFonts()
 {
-	if (!this->font.loadFromFile("Fonts/Dosis-Light.TTF"))
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
 		throw("ERROR::MAINMENUSTATE::COULT NOT LOAD FONT");
 	}
@@ -106,8 +106,10 @@ void GameState::initPauseMenu()
 
 void GameState::updatePausedInput(const float& dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	time+=dt;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)&& time>0.5f)
 	{
+		time=0.0f;
 		if (!this->paused)
 			this->pauseState();
 		else
@@ -144,19 +146,12 @@ void GameState::updateInput(const float& dt)
 
 	this->player->move(dt, direction);
 
-	time += dt;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && time > 0.2)
-	{
-		window->setView(window->getDefaultView());
-		this->endState();
-		time = 0;
-	}
-
+	
 }
 
 void GameState::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(window->getView());
 	this->updatePausedInput(dt);
 
 	if (!this->paused)
@@ -176,7 +171,10 @@ void GameState::update(const float& dt)
 		this->player->update(dt);
 		if (tilemap)
 			tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
-
+		if(attributes)
+		{
+			attributes->update();
+		}
 		/*
 		  - Updating if the GameState is over or not.
 		  - If over then endState() functions is called and new QuitState is

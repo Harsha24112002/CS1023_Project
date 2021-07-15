@@ -57,6 +57,10 @@ float Player::gethealth()
 {
     return health;
 }
+int Player::getcoins()
+{
+    return coins;
+}
 void Player::move(float dt, sf::Vector2f direction)
 {
     this->dt = dt;

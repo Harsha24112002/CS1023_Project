@@ -19,7 +19,7 @@ private:
 	Player* player;
 	sf::View view;
 	Tilemap* tilemap;
-	Playerattributes* attributes;
+	PlayerAttributes* attributes;
 	sf::RenderTexture rendertexture;
 	sf::Sprite rendersprite;
 	bool is_game_over;

@@ -65,7 +65,7 @@ class Player
     void equipcoin();
     void onspikes();
     float gethealth();
-
+    int getcoins();
     
     collider getcollider(){return collider(*rect);}
     void oncollision(sf::Vector2f& fromwhere);
