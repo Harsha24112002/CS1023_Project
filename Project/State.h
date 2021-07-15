@@ -30,6 +30,7 @@ protected:
 	std::map<std::string, int>* supportedKeys;
 	std::map<std::string, int> keybinds;
 	bool quit;
+	bool paused;
 	bool totalquit;
 	bool playagain;
 	Statedata& stateinfo;
@@ -51,8 +52,9 @@ public:
 	const bool& getTotalQuit() const;
 	const bool& getPlayAgain() const;
 
-
 	void endState();
+	void pauseState();
+	void unpauseState();
 	void QuitGame();
 
 	virtual void updateMousePositions(sf::View view);
