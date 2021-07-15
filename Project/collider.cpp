@@ -1,6 +1,18 @@
 #include "collider.h"
 #include<iostream>
-bool collider::checkcollision(collider& body2, sf::Vector2f& fromwhere, float howmuchmovable)
+
+bool collider::checkcollision(collider& body2)
+{
+    sf::FloatRect tile = rect.getfloatrect();
+    sf::FloatRect player = body2.getfloatrect();
+    if(tile.intersects(player))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool collider::stopcollision(collider& body2, sf::Vector2f& fromwhere, float howmuchmovable)
 {
     sf::FloatRect tile = rect.getfloatrect();
     sf::FloatRect player = body2.getfloatrect();

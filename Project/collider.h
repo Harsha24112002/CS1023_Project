@@ -7,7 +7,8 @@ class collider
 {
     public:
     collider(Boundrect& rect):rect(rect){}
-    bool checkcollision(collider& body2,sf::Vector2f&,float);
+    bool stopcollision(collider& body2,sf::Vector2f&,float);
+    bool checkcollision(collider&);
     sf::FloatRect getfloatrect(){return rect.getfloatrect();}
    /* sf::Vector2f getsize(){return sf::Vector2f(rect.getTextureRect().width/2.0f,sprite.getTextureRect().height/2.0f);}
     sf::Vector2f getpos(){return rect.getPosition();}
