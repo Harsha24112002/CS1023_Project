@@ -19,11 +19,11 @@ public:
 	virtual ~Tile();
 
 	friend std::ostream& operator<<(std::ostream& out, Tile);
-	collider getcollider();
+	virtual collider getcollider();
 	int gettype();
 	bool getcollision();
-	void update();
-	void render(sf::RenderTarget* target);
+	virtual void update(float dt);
+	virtual void render(sf::RenderTarget* target);
 };
 
 

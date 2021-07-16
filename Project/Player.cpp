@@ -18,10 +18,10 @@ void Player::initvariables()
 {
     this->coins=0;
     this->health=100;
-
+    this->time = 0;
     this->nimages.x = 3;
     this->nimages.y = 9;
-    this->switchtime = 0.25f;
+    this->switchtime = 0.15f;
 
     this->sprite.setTexture(t);
     sprite.setScale(1.25, 1.25);
@@ -29,6 +29,7 @@ void Player::initvariables()
     this->sprite.setTextureRect(a->r);
     this->sprite.setPosition(sf::Vector2f(460, 250));
 
+    
     this->jumpheight = 100.0f;
 
     this->row = 0;
@@ -60,6 +61,14 @@ float Player::gethealth()
 int Player::getcoins()
 {
     return coins;
+}
+void Player::hitenemy()
+{
+    if(time>0.3)
+    {
+    health-=25;
+    time=0;
+    }
 }
 void Player::move(float dt, sf::Vector2f direction)
 {
@@ -189,7 +198,7 @@ bool Player::IsGameOver()
 
 void Player::update(const float& dt)
 {
-
+    time+=dt;
     this->sprite.setTextureRect(a->r);
     this->sprite.move(this->velocity * dt);
     sprite.setOrigin(sf::Vector2f((double)(a->r.width) / 2.0, (double)(a->r.height) / 2.0));

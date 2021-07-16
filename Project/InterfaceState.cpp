@@ -11,8 +11,8 @@ Interface::Interface(Statedata& state_info) :State(state_info)
 	rect.setFillColor(sf::Color::Transparent);
 	this->texrect = sf::IntRect(0, 0, (int)stateinfo.gridsize, (int)stateinfo.gridsize);
 	textureselector = new TextureSelector(20, 20, 10, 10, stateinfo.gridsize, tilemap->getTilesheet());
-	std::string filename = "Tilepositions.txt";
-	tilemap->Loadfromfile(filename);
+	 filename = "Tilepositions.txt";
+	
 	type = 0;
 	collision = false;
 	helpWindow = false;
@@ -36,16 +36,12 @@ Interface::Interface(Statedata& state_info) :State(state_info)
 
 	this->initView();
 	this->initHelpKeys();
+	this->InitButtons();
 }
 
 Interface::~Interface()
 {
 	delete textureselector;
-
-	for (auto& a : buttons)
-	{
-		delete a.second;
-	}
 }
 
 
@@ -109,26 +105,76 @@ void Interface::initHelpKeys()
 
 }
 
-void Interface::updatemousepos()
+void Interface::InitButtons()
 {
-	updateMousePositions(view);
-	for (auto& a : buttons)
+	this->pmenu = new PauseMenu(&this->view, this->f);
+
+	this->pmenu->addButton("LOAD", 200.f, "LOAD");
+	
+	this->pmenu->addButton("LOAD2", 300.f, "LOAD2");
+
+	this->pmenu->addButton("QUIT", 400.f, "QUIT");
+
+	//this->pmenu->addButton("EXIT_STATE", 600.f, "QUIT");
+
+}
+
+void Interface::updateButtons()
+{
+	if(pmenu->isButtonPressed("LOAD"))
 	{
-		a.second->update(mousePosView);
+		filename="Tilepositions.txt";
+		tilemap->Loadfromfile(filename);
+	}
+	if(pmenu->isButtonPressed("LOAD2"))
+	{
+		filename="Tilepositions2.txt";
+		tilemap->Loadfromfile(filename);
+	}
+	if(pmenu->isButtonPressed("QUIT"))
+	{
+		tilemap->savetofile(filename);
+		this->endState();
+	}
+	
+	
+}
+void Interface::updatePausedInput(const float& dt)
+{
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)&& keytime>0.5f)
+	{
+		keytime=0.0f;
+		if (!this->paused)
+			this->pauseState();
+		else
+			this->unpauseState();
 	}
 }
 void Interface::update(const float& dt)
 {
+	
 	keytime += dt;
-	updatemousepos();
-	tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
+	updateMousePositions(view);
+	updatePausedInput(dt);
 	this->updateInput(dt);
+
+	if(!paused)
+	{
+	tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)),dt);
+	
 
 	textureselector->update(mousePosWindow);
 	rect.setPosition(sf::Vector2f((float)mousePosGrid.x * stateinfo.gridsize, (float)mousePosGrid.y * stateinfo.gridsize));
 	mousetext.setPosition(mousePosView.x + 10, mousePosView.y - 10);
 	mousetext.setString("collision : " + std::to_string(collision) + "\n" + "Type: " + std::to_string(type));
-
+	}
+	else
+	{
+		this->pmenu->update(this->mousePosView);
+		this->updateButtons();
+	}
+	
 }
 
 void Interface::render(sf::RenderTarget* target)
@@ -141,7 +187,11 @@ void Interface::render(sf::RenderTarget* target)
 	if (!helpWindow)
 	{
 		target->setView(view);
+		if(tilemap)
+		{
 		tilemap->render(target);
+		}
+
 		this->help.setPosition(sf::Vector2f(target->getView().getCenter().x + 960.0f - 80, target->getView().getCenter().y - 540.0f));
 		if (!this->help.getGlobalBounds().contains(this->mousePosView))
 		{
@@ -153,10 +203,7 @@ void Interface::render(sf::RenderTarget* target)
 		}
 		target->setView(target->getDefaultView());
 		this->help.setPosition(sf::Vector2f(target->getView().getCenter().x + 960.0f - 80, target->getView().getCenter().y - 540.0f));
-		for (auto& a : buttons)
-		{
-			a.second->render(target);
-		}
+		
 		textureselector->render(target);
 
 		target->draw(this->help);
@@ -175,6 +222,10 @@ void Interface::render(sf::RenderTarget* target)
 		target->draw(this->close);
 		this->close.setPosition(sf::Vector2f(target->getView().getCenter().x - 960.0f, target->getView().getCenter().y - 540.0f));
 	}
+	if(paused)
+	{
+		pmenu->render(*target);
+	}
 
 }
 
@@ -186,6 +237,8 @@ void Interface::initKeybinds()
 
 void Interface::updateInput(const float& dt)
 {
+	if(!paused)
+	{
 	if (!helpWindow)
 	{
 		if (!this->help.getGlobalBounds().contains(this->mousePosView))
@@ -222,13 +275,7 @@ void Interface::updateInput(const float& dt)
 			{
 				tilemap->removetile(mousePosGrid.x, mousePosGrid.y);
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			{
-				std::string s = "Tilepositions.txt";
-				tilemap->savetofile(s);
-				this->endState();
-			}
+			
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) && keytime > 1.0f)
 			{
 				if (collision)
@@ -281,6 +328,7 @@ void Interface::updateInput(const float& dt)
 			this->close.setPosition(sf::Vector2f(this->window->getView().getCenter().x - 960.0f , this->window->getView().getCenter().y - 540.0f ));
 		}
 		//this->close.setPosition(sf::Vector2f(this->window->getView().getCenter().x - 960.0f, this->window->getView().getCenter().y - 540.0f));
+	}
 	}
 }
 

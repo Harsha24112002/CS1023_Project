@@ -1,5 +1,5 @@
 #include "Tile.h"
-
+#include <iostream>
 Tile::Tile(float x, float y, float gridsize, sf::Texture& texture, sf::IntRect& texturerect, int type, bool collision)
 {
 	//tile.setSize(sf::Vector2f(gridsize,gridsize));
@@ -55,7 +55,7 @@ bool Tile::getcollision()
 {
 	return collision;
 }
-void Tile::update()
+void Tile::update(float dt)
 {
 	if (boundrect)
 		boundrect->update();
@@ -67,8 +67,10 @@ void Tile::render(sf::RenderTarget* target)
 	{
 		target->draw(tilesprite);
 	}
+
 	if (boundrect)
 	{
 		boundrect->render(target);
 	}
+
 }
