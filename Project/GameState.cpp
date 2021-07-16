@@ -187,7 +187,7 @@ void GameState::update(const float& dt)
 
 		this->player->update(dt);
 		if (tilemap)
-			tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)));
+			tilemap->update(sf::Vector2i((view.getCenter().x / stateinfo.gridsize), (view.getCenter().y / stateinfo.gridsize)),dt);
 		if(attributes)
 		{
 			attributes->update();

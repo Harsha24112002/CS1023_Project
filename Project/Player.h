@@ -27,6 +27,7 @@ class Player
     //variables
     bool rightface;
     sf::Vector2f velocity;
+    unsigned time;
     int row;
     bool canjump;
     bool bounceup;
@@ -66,7 +67,7 @@ class Player
     void onspikes();
     float gethealth();
     int getcoins();
-    
+    void hitenemy();
     collider getcollider(){return collider(*rect);}
     void oncollision(sf::Vector2f& fromwhere);
     bool IsGameOver();
