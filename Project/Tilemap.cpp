@@ -9,6 +9,7 @@ Tilemap::Tilemap(float gridsize, unsigned width, unsigned height)
 	//this->layers=1;
 //	std::cout<<mapsize.x<<mapsize.y<<std::endl;
 	this->texture.loadFromFile("Resources/tiles_2.png");
+	this->enemytex.loadFromFile("Resources/Images/wilber_from_gimp.png");
 	for (unsigned x = 0; x < mapsize.x; x++)
 	{
 		map.resize(mapsize.x, (std::vector<std::vector<Tile*>>()));
@@ -28,6 +29,10 @@ Tilemap::Tilemap(float gridsize, unsigned width, unsigned height)
 }
 Tilemap::~Tilemap()
 {
+	clear();
+}
+void Tilemap::clear()
+{
 	for (auto& a : map)
 	{
 		for (auto& b : a)
@@ -35,11 +40,12 @@ Tilemap::~Tilemap()
 			for (auto& c : b)
 			{
 				delete c;
+				c=nullptr;
 			}
 		}
 	}
 }
-void Tilemap::update(sf::Vector2i Playergridpos)
+void Tilemap::update(sf::Vector2i Playergridpos,float dt)
 {
 
 	fromX = Playergridpos.x - 10;
@@ -89,7 +95,7 @@ void Tilemap::update(sf::Vector2i Playergridpos)
 			{
 				if (map[x][y][z] != nullptr)
 				{
-					map[x][y][z]->update();
+					map[x][y][z]->update(dt);
 				}
 			}
 		}
@@ -99,9 +105,12 @@ bool Tilemap::checksametype(std::vector<Tile*> layer,int type)
 {
 	for(auto& a:layer)
 	{
+		if(a!=nullptr)
+		{
 		if(a->gettype()==type)
 		{
 			return true;
+		}
 		}
 	}
 	return false;
@@ -112,8 +121,14 @@ void Tilemap::addtile(unsigned x,unsigned y ,sf::IntRect& texturerect,int type,b
 	{
 	if(!checksametype(map[x][y],type))
 	{
+	if(type==3)
+	{
+		map[x][y].push_back(new Enemytile(x*gridsizef,y*gridsizef,gridsizef,texture,texturerect,type,collison,&enemytex));	
+	}
+	else	
 	map[x][y].push_back(new Tile(x*gridsizef,y*gridsizef,gridsizef,texture,texturerect,type,collison));
 	}
+	
 	}
 }
 void Tilemap::removetile(unsigned x,unsigned y )
@@ -174,8 +189,23 @@ void Tilemap::checkcollison(Player* player, sf::Vector2f& direction)
 						{
 							delete map[x][y][z];
 							map[x][y][z]=nullptr;
-							map[x][y].erase(it);
+							//map[x][y].erase(it);
 							player->equipcoin();
+						}
+					}
+					else if(map[x][y][z]->gettype()==3)
+					{
+						if(map[x][y][z]->getcollider().stopcollision(collider,direction,0.5))
+						{
+							if(direction.y>0 && direction.x == 0)
+							{
+								delete map[x][y][z];
+								map[x][y][z]=nullptr;
+							}
+							else 
+							{
+								player->hitenemy();
+							}
 						}
 					}
 				}
@@ -211,18 +241,12 @@ void Tilemap::savetofile(std::string& filename)
 
 void Tilemap::Loadfromfile(std::string& filename)
 {
+	clear();
 	std::ifstream loadfile;
 	loadfile.open(filename);
 	if (loadfile.is_open())
 	{
-		if (loadfile >> mapsize.x >> mapsize.y)
-		{
-
-		}
-		if(loadfile>>gridsizef)
-		{
-
-		}
+		loadfile>>mapsize.x>>mapsize.y>>gridsizef;
 		sf::Vector2f positions;
 		sf::IntRect texrect;
 		int type;
@@ -233,6 +257,11 @@ void Tilemap::Loadfromfile(std::string& filename)
 			int b=positions.y/gridsizef;
 			texrect.width=(float)gridsizef;
 			texrect.height=(float)gridsizef;
+			if(type==3)
+			{
+				map[a][b].push_back(new Enemytile(positions.x,positions.y,gridsizef,texture,texrect,type,collison,&enemytex));
+			}
+			else
 			map[a][b].push_back(new Tile(positions.x,positions.y,gridsizef,texture,texrect,type,collison));
 		}
 
