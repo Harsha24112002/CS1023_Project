@@ -18,7 +18,7 @@ void Player::initvariables()
 {
     this->coins=0;
     this->health=100;
-    this->time = 0;
+    this->time = 0.0;
     this->nimages.x = 3;
     this->nimages.y = 9;
     this->switchtime = 0.15f;
@@ -65,7 +65,7 @@ int Player::getcoins()
 void Player::hitenemy()
 {
     if(time>0.3)
-    {
+    {    
     health-=25;
     time=0;
     }

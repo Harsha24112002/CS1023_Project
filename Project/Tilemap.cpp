@@ -195,7 +195,7 @@ void Tilemap::checkcollison(Player* player, sf::Vector2f& direction)
 					}
 					else if(map[x][y][z]->gettype()==3)
 					{
-						if(map[x][y][z]->getcollider().stopcollision(collider,direction,0.5))
+						if(map[x][y][z]->getcollider().stopcollision(collider,direction,1))
 						{
 							if(direction.y>0 && direction.x == 0)
 							{

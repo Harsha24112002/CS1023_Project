@@ -27,7 +27,7 @@ class Player
     //variables
     bool rightface;
     sf::Vector2f velocity;
-    unsigned time;
+    float time;
     int row;
     bool canjump;
     bool bounceup;
