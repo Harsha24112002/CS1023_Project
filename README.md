@@ -24,15 +24,15 @@ SFML is used for graphics and audio. To install SFML, follow the instructions on
 To install Run2Win, follow these steps:
 1. Clone the repository:
    ```bash
-    git clone https://example.com/Run2Win.git
-```
+    git clone https://example.com/Run2Win.git 
+    ```
 2. Navigate to the project directory:
    ```bash
-    cd CS1023-Project
+    cd CS1023-Project 
     ```
 3. Build the project:
    ```bash
-    make game
+    make game 
     ```
 ## Usage
 
@@ -66,6 +66,7 @@ To run the tests, follow these steps after setting up the project:
     ```
 ## Contributors
 
+- [Venkata Datta Sri Harsha Kusampudi](https://github.com/Harsha24112002)
 - [Vikas Patnala](https://github.com/VikasPatnala)
 - [Sandeep L](https://github.com/Sandeep-L)
 - [Revanth B](https://github.com/revanthbadavathu)
